@@ -10,8 +10,10 @@ Shared experiment code for the Computer Networks (Phase 3/4) and Agentic AI proj
 | OS / Python | Windows 11 Home 10.0.26200 / Python 3.11.9 |
 | Python packages | scikit-learn 1.8.0, pandas 3.0.2, numpy 2.4.6, scipy 1.17.1, matplotlib 3.10.9 |
 | LLM runtime | llama.cpp release `b12128`, Windows CPU x64 build; zip SHA-256 `2864bc950fe1681f1867ebc1bf0d6a66d18cc5561b29c285b4504787145bd7b7` (matches GitHub digest) |
-| LLM | Llama-3.2-3B-Instruct, `Llama-3.2-3B-Instruct-Q4_K_M.gguf` from `bartowski/Llama-3.2-3B-Instruct-GGUF`; SHA-256 `MODEL_SHA256` |
+| LLM | Llama-3.2-3B-Instruct, `Llama-3.2-3B-Instruct-Q4_K_M.gguf` from `bartowski/Llama-3.2-3B-Instruct-GGUF`; 2,019,377,696 bytes, SHA-256 `6c1a2b41161032677be168d354123594c0e6e67d2b9227c84f296ad037c728ff` (matches Hugging Face LFS oid) |
 | LLM settings | CPU only, 6 threads, context 2048, max output 128 tokens, temperature 0, seed 42, one request at a time |
+
+**Pilot (10 development-only queries, 5 Nov 2026):** 10/10 replies parsed as JSON; latency median 5.5 s, max 10.6 s; llama-server memory 2.6 GB (peak 3.5 GB). With Brave and Discord open, free RAM dropped to 0.9 GB, so close other apps before the final run. Pilot outputs are in `results/pilot.jsonl`; they are development data only and not reported as results.
 
 Ollama was considered and dropped: its Windows installer is 1.6 GB of GPU libraries the integrated GPU cannot use. llama.cpp is the runtime named in the Phase 2 methodology, so no methodology change follows.
 

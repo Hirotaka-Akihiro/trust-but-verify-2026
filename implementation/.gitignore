@@ -3,3 +3,4 @@ external/
 data/raw/
 *.gguf
 __pycache__/
+*.log

@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="1260" viewBox="0 0 1800 1260" role="img" aria-labelledby="title desc">
+<title id="title">Traffic-policy experiment adapted from ToolGuards Figure 1</title>
+<desc id="desc">Offline policy mapping and classifier training feed an agent. Identical proposals are replayed without a gate and with a deterministic gate. Simulator state is scored independently.</desc>
+<defs><marker id="a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8" fill="#333"/></marker></defs><rect width="1800" height="1260" fill="white"/>
+<text x="60" y="61.96" font-family="Times New Roman,Times,serif" font-size="42" font-weight="700" fill="#111">Network traffic policy: simplified research pipeline</text>
+<text x="60" y="136.68" font-family="Times New Roman,Times,serif" font-size="36" font-weight="700" fill="#111">1. Prepare the traffic classifier</text>
+<rect x="70" y="180" width="420" height="120" fill="#fff" stroke="#555" stroke-width="2"/>
+<text x="85" y="226.68" font-family="Times New Roman,Times,serif" font-size="36" font-weight="700" fill="#111">ISCXVPN2016</text>
+<text x="85" y="269.68" font-family="Times New Roman,Times,serif" font-size="36" font-weight="400" fill="#111">Flow-feature CSVs</text>
+<rect x="650" y="180" width="480" height="120" fill="#fff" stroke="#555" stroke-width="2"/>
+<text x="665" y="226.68" font-family="Times New Roman,Times,serif" font-size="36" font-weight="700" fill="#111">Preprocess and split</text>
+<text x="665" y="269.68" font-family="Times New Roman,Times,serif" font-size="36" font-weight="400" fill="#111">Clean data; separate test flows</text>
+<rect x="1280" y="180" width="450" height="120" fill="#fff" stroke="#555" stroke-width="2"/>
+<text x="1295" y="224.04" font-family="Times New Roman,Times,serif" font-size="33" font-weight="700" fill="#111">Selected application classifier</text>
+<text x="1295" y="262.64" font-family="Times New Roman,Times,serif" font-size="28" font-weight="400" fill="#111">Choose DT or RF; predict test flows</text>
+<polyline points="490,240 650,240" fill="none" stroke="#333" stroke-width="3" marker-end="url(#a)"/>
+<polyline points="1130,240 1280,240" fill="none" stroke="#333" stroke-width="3" marker-end="url(#a)"/>
+<text x="60" y="386.68" font-family="Times New Roman,Times,serif" font-size="36" font-weight="700" fill="#111">2. Generate one action per scenario</text>
+<rect x="70" y="430" width="420" height="120" fill="#fff" stroke="#555" stroke-width="2"/>
+<text x="85" y="476.68" font-family="Times New Roman,Times,serif" font-size="36" font-weight="700" fill="#111">Operator request</text>
+<text x="85" y="519.68" font-family="Times New Roman,Times,serif" font-size="36" font-weight="400" fill="#111">Policy included in prompt</text>
+<rect x="650" y="430" width="480" height="120" fill="#fff" stroke="#555" stroke-width="2"/>
+<text x="665" y="476.68" font-family="Times New Roman,Times,serif" font-size="36" font-weight="700" fill="#111">Small local LLM</text>
+<text x="665" y="517.92" font-family="Times New Roman,Times,serif" font-size="34" font-weight="400" fill="#111">Request + predicted traffic type</text>
+<rect x="1280" y="430" width="450" height="120" fill="#fff" stroke="#555" stroke-width="2"/>
+<text x="1295" y="476.68" font-family="Times New Roman,Times,serif" font-size="36" font-weight="700" fill="#111">100 cached proposals</text>
+<text x="1295" y="514.4" font-family="Times New Roman,Times,serif" font-size="30" font-weight="400" fill="#111">Same calls used in every condition</text>
+<polyline points="490,490 650,490" fill="none" stroke="#333" stroke-width="3" marker-end="url(#a)"/>
+<polyline points="1130,490 1280,490" fill="none" stroke="#333" stroke-width="3" marker-end="url(#a)"/>
+<polyline points="1505,300 1505,330 890,330 890,430" fill="none" stroke="#333" stroke-width="3" marker-end="url(#a)"/>
+<text x="60" y="636.68" font-family="Times New Roman,Times,serif" font-size="36" font-weight="700" fill="#111">3. Compare outcomes with and without the gate</text>
+<polyline points="1505,550 1505,680 400,680 400,900" fill="none" stroke="#333" stroke-width="3" marker-end="url(#a)"/>
+<polyline points="1505,680 1390,680 1390,740" fill="none" stroke="#333" stroke-width="3" marker-end="url(#a)"/>
+<rect x="650" y="740" width="400" height="120" fill="#f3f3f3" stroke="#555" stroke-width="2"/>
+<text x="665" y="786.68" font-family="Times New Roman,Times,serif" font-size="36" font-weight="700" fill="#111">Gate inputs</text>
+<text x="665" y="821.76" font-family="Times New Roman,Times,serif" font-size="27" font-weight="400" fill="#111">Written rules + trusted prediction</text>
+<rect x="1140" y="740" width="500" height="120" fill="#eeeeee" stroke="#555" stroke-width="2"/>
+<text x="1155" y="786.68" font-family="Times New Roman,Times,serif" font-size="36" font-weight="700" fill="#111">Deterministic policy gate</text>
+<text x="1155" y="829.68" font-family="Times New Roman,Times,serif" font-size="36" font-weight="400" fill="#111">Accept action or reject and hold</text>
+<polyline points="1050,800 1140,800" fill="none" stroke="#333" stroke-width="3" marker-end="url(#a)"/>
+<rect x="150" y="900" width="500" height="120" fill="#fff" stroke="#555" stroke-width="2"/>
+<text x="165" y="946.68" font-family="Times New Roman,Times,serif" font-size="36" font-weight="700" fill="#111">B0: Ungated simulator</text>
+<text x="165" y="989.68" font-family="Times New Roman,Times,serif" font-size="36" font-weight="400" fill="#111">Execute recognized proposals</text>
+<rect x="1140" y="900" width="500" height="120" fill="#fff" stroke="#555" stroke-width="2"/>
+<text x="1155" y="946.68" font-family="Times New Roman,Times,serif" font-size="36" font-weight="700" fill="#111">M: Gated simulator</text>
+<text x="1155" y="986.16" font-family="Times New Roman,Times,serif" font-size="32" font-weight="400" fill="#111">Execute accepted; keep rejects held</text>
+<polyline points="1390,860 1390,900" fill="none" stroke="#333" stroke-width="3" marker-end="url(#a)"/>
+<polyline points="400,1020 400,1070 900,1070 900,1120" fill="none" stroke="#333" stroke-width="3" marker-end="url(#a)"/>
+<polyline points="1390,1020 1390,1070 900,1070" fill="none" stroke="#333" stroke-width="3" marker-end="url(#a)"/>
+<rect x="70" y="1120" width="430" height="100" fill="#fff" stroke="#555" stroke-width="2"/>
+<text x="85" y="1166.68" font-family="Times New Roman,Times,serif" font-size="36" font-weight="700" fill="#111">Independent reference</text>
+<text x="85" y="1204.4" font-family="Times New Roman,Times,serif" font-size="30" font-weight="400" fill="#111">True labels + expected outcomes</text>
+<rect x="650" y="1120" width="990" height="100" fill="#fff" stroke="#555" stroke-width="2"/>
+<text x="665" y="1166.68" font-family="Times New Roman,Times,serif" font-size="36" font-weight="700" fill="#111">Independent evaluation</text>
+<text x="665" y="1209.68" font-family="Times New Roman,Times,serif" font-size="36" font-weight="400" fill="#111">Policy violations, task completion, rejection and latency</text>
+<polyline points="500,1170 650,1170" fill="none" stroke="#333" stroke-width="3" marker-end="url(#a)"/>
+<text x="60" y="1251.12" font-family="Times New Roman,Times,serif" font-size="24" font-weight="400" fill="#111">Adapted from Zwerdling et al., EMNLP 2025, Figure 1 (p. 597); mapped to this project.</text>
+</svg>

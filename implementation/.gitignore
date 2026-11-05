@@ -1,0 +1,5 @@
+# Large or third-party files: keep out of git (record hashes in results/env instead)
+external/
+data/raw/
+*.gguf
+__pycache__/

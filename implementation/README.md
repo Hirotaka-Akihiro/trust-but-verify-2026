@@ -31,7 +31,13 @@ data/raw/            ISCXVPN2016 files (git-ignored; registration required at UN
 
 ## Run
 
+See [EXPERIMENTS.md](EXPERIMENTS.md) for the experiment plan, the Agentic AI retry-after-rejection extension, changes from Phase 2 and results so far.
+
+Put the three ISCXVPN2016 `Scenario *-ARFF.zip` files in `data/raw/` (registration at https://www.unb.ca/cic/datasets/vpn.html).
+
 ```powershell
+python src/data_prep.py           # clean, sample 10,000 flows, 60/20/20 split
+python src/train_classifiers.py   # baseline, Decision Tree, Random Forest + figures
 python src/gate_tests.py
 powershell -File start_llm_server.ps1     # separate window; ~2.5-3 GB RAM
 python src/pilot.py

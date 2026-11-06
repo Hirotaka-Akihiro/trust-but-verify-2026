@@ -1,0 +1,81 @@
+{
+  "source_zip": "Scenario B-ARFF.zip",
+  "zip_sha256": "248421563cd0a34677bb87883a509006e2bacd54ede65d0fc13ece64730e3361",
+  "member": "Scenario B-ARFF/TimeBasedFeatures-Dataset-15s.arff",
+  "member_sha256": "8b12e8c0cd49f56af28cdaa7c2aa7795ee24de0b1bedf638280e00404f7c1563",
+  "rows_loaded": 18758,
+  "n_features": 23,
+  "features": [
+    "duration",
+    "total_fiat",
+    "total_biat",
+    "min_fiat",
+    "min_biat",
+    "max_fiat",
+    "max_biat",
+    "mean_fiat",
+    "mean_biat",
+    "flowPktsPerSecond",
+    "flowBytesPerSecond",
+    "min_flowiat",
+    "max_flowiat",
+    "mean_flowiat",
+    "std_flowiat",
+    "min_active",
+    "mean_active",
+    "max_active",
+    "std_active",
+    "min_idle",
+    "mean_idle",
+    "max_idle",
+    "std_idle"
+  ],
+  "rows_with_nan_or_inf": 0,
+  "rows_with_minus1_sentinel": 11663,
+  "rows_in_conflicting_label_groups": 622,
+  "same_label_duplicates_removed": 152,
+  "rows_after_cleaning": 17984,
+  "class_counts_after_cleaning": {
+    "voip": 5085,
+    "browsing": 5000,
+    "file_transfer": 2712,
+    "chat": 2030,
+    "p2p": 1604,
+    "streaming": 921,
+    "email": 632
+  },
+  "split_counts": {
+    "train": {
+      "voip": 1697,
+      "browsing": 1668,
+      "file_transfer": 905,
+      "chat": 677,
+      "p2p": 535,
+      "streaming": 307,
+      "email": 211
+    },
+    "val": {
+      "voip": 566,
+      "browsing": 556,
+      "file_transfer": 301,
+      "chat": 226,
+      "p2p": 179,
+      "streaming": 102,
+      "email": 70
+    },
+    "test": {
+      "voip": 565,
+      "browsing": 556,
+      "file_transfer": 302,
+      "chat": 226,
+      "p2p": 178,
+      "streaming": 103,
+      "email": 70
+    }
+  },
+  "split_sizes": {
+    "train": 6000,
+    "val": 2000,
+    "test": 2000
+  }
+}

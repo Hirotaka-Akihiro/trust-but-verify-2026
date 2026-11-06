@@ -112,8 +112,8 @@
     "retry_median": 4.766
   },
   "gate_latency": {
-    "median_us": 3.6,
-    "p95_us": 4.4,
+    "median_us": 3.7,
+    "p95_us": 4.5,
     "n": 3000
   },
   "bootstrap_95ci": {

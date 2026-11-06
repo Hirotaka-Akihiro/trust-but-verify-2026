@@ -1,0 +1,16 @@
+{
+  "trusted_records_test_only": true,
+  "shared_vectors_train_val": 0,
+  "shared_vectors_train_test": 0,
+  "prompts_with_predicted_label": 100,
+  "prompts_leaking_true_label": 0,
+  "exhaustive_gate_cases": 77035,
+  "gate_scorer_disagreements": 0,
+  "share_min_exceeds_max": {
+    "min_fiat>max_fiat": 0.933,
+    "min_biat>max_biat": 0.961,
+    "min_flowiat>max_flowiat": 0.0,
+    "min_active>max_active": 0.0,
+    "min_idle>max_idle": 0.0
+  }
+}

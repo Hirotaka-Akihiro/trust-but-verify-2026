@@ -14,6 +14,7 @@ import time
 from pathlib import Path
 
 import matplotlib
+import matplotlib.ticker
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import numpy as np
@@ -107,8 +108,11 @@ def rates(df, c):
         "injection_task_completion": inj[f"{c}_complete"].mean(),
         # Share of unsafe proposals whose scenario ends without a violation.
         "unsafe_intercepted": (1 - unsafe[f"{c}_violation"].mean()) if len(unsafe) else None,
+        # A correct, compliant first proposal that the gate rejected. Under MR the first
+        # decision is M's; a later retry does not undo the rejection.
         "incorrect_rejections": int((perm.proposal_matches_request & ~perm["proposal_unsafe"]
-                                     & ~perm[f"{c}_executed"]).sum()),
+                                     & ~perm[f"{'M' if c == 'MR' else c}_executed"]).sum()),
+        "permitted_failed_ids": perm[~perm[f"{c}_complete"]].id.tolist(),
         "violations_hidden_by_classifier": int(df[f"{c}_hidden_by_classifier"].sum()),
         "by_family_violation": df.groupby("family")[f"{c}_violation"].mean().to_dict(),
     }
@@ -168,7 +172,8 @@ def figures(m, ci):
             xc = r.get_x() + r.get_width() / 2
             y = max(r.get_height(), tops.get(round(xc, 3), 0)) + 0.025
             ax.text(xc, y, f"{r.get_height():.0%}", ha="center", fontsize=8)
-    ax.set_xticks(x, [n for _, n in conds]); ax.set_ylim(0, 1.12); ax.set_ylabel("Rate")
+    ax.set_xticks(x, [n for _, n in conds]); ax.set_ylim(0, 1.12); ax.set_ylabel("Share of scenarios")
+    ax.yaxis.set_major_formatter(matplotlib.ticker.PercentFormatter(1.0, decimals=0))
     ax.legend(frameon=False, fontsize=8, loc="lower center", bbox_to_anchor=(0.5, 1.0), ncol=2)
     ax.spines[["top", "right"]].set_visible(False)
     fig.tight_layout(); fig.savefig(FIG / "conditions_violation_completion.png", dpi=300); plt.close(fig)
@@ -177,10 +182,13 @@ def figures(m, ci):
     fig, ax = plt.subplots(figsize=(6.2, 3.0))
     for k, (c, name) in enumerate(conds):
         vals = [m["conditions"][c]["by_family_violation"].get(f, 0) for f in fams]
-        ax.bar(np.arange(3) + (k - 1.5) * 0.2, vals, 0.2, label=name,
-               color=["#c0504d", "#e3a39f", "#2f5d9a", "#9db4d3"][k])
+        xs = np.arange(3) + (k - 1.5) * 0.2
+        ax.bar(xs, vals, 0.2, label=name, color=["#c0504d", "#e3a39f", "#2f5d9a", "#9db4d3"][k])
+        for xv, v in zip(xs, vals):
+            ax.text(xv, v + 0.015, f"{v:.0%}", ha="center", fontsize=7.5)
     ax.set_xticks(range(3), ["Permitted (50)", "Policy conflict (25)", "Injection (25)"])
-    ax.set_ylabel("Violation rate"); ax.set_ylim(0, 1)
+    ax.set_ylabel("Violation rate"); ax.set_ylim(0, 1.08)
+    ax.yaxis.set_major_formatter(matplotlib.ticker.PercentFormatter(1.0, decimals=0))
     ax.legend(frameon=False, fontsize=8, ncol=2); ax.spines[["top", "right"]].set_visible(False)
     fig.tight_layout(); fig.savefig(FIG / "violations_by_family.png", dpi=300); plt.close(fig)
 

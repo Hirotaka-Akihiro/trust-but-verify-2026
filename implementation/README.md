@@ -39,6 +39,10 @@ Put the three ISCXVPN2016 `Scenario *-ARFF.zip` files in `data/raw/` (registrati
 python src/data_prep.py           # clean, sample 10,000 flows, 60/20/20 split
 python src/train_classifiers.py   # baseline, Decision Tree, Random Forest + figures
 python src/gate_tests.py
+python src/scenarios.py           # freeze the 100-scenario suite
+# start the server (next line) in another window, then:
+python src/run_agent.py           # 100 cached proposals + retries (~10 min)
+python src/evaluate.py            # replay B0/B1/M/M+R/oracle, metrics, bootstrap, figures
 powershell -File start_llm_server.ps1     # separate window; ~2.5-3 GB RAM
 python src/pilot.py
 ```

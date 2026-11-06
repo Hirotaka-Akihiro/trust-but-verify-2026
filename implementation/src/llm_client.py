@@ -46,9 +46,18 @@ def parse_proposal(text: str):
     return None
 
 
+RETRY_TEMPLATE = ("The policy gate rejected your action: {reason}. The flow is still held. "
+                  "Propose one different action that satisfies the operator policy. "
+                  'Reply with one JSON object only: {{"tool": "<name>", "args": {{...}}}}')
+
+
 def propose(user_prompt: str, timeout: float = 300.0) -> dict:
-    body = {"messages": [{"role": "system", "content": SYSTEM},
-                         {"role": "user", "content": user_prompt}], **SETTINGS}
+    return propose_messages([{"role": "user", "content": user_prompt}], timeout)
+
+
+def propose_messages(turns: list, timeout: float = 300.0) -> dict:
+    """turns: user/assistant messages after the fixed system prompt."""
+    body = {"messages": [{"role": "system", "content": SYSTEM}, *turns], **SETTINGS}
     req = urllib.request.Request(URL, data=json.dumps(body).encode(),
                                  headers={"Content-Type": "application/json"})
     t0 = time.perf_counter()

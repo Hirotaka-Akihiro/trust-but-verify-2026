@@ -50,3 +50,28 @@ Random Forest per-class test F1: VoIP 0.989, browsing 0.908, P2P 0.887, streamin
 Policy-relevant error: 14% of true file-transfer flows are predicted as chat. File transfer may not be allowed, but chat may, so the gate will approve `allow_flow` for these flows: a violation that is invisible to the gate because it trusts the classifier (RQ3).
 
 Figures: `figures/confusion_matrix.png`, `figures/per_class_f1.png`, `figures/feature_importance.png`.
+
+**Caveat on feature names:** in the official ARFF files some column names do not match their values (for example `min_fiat` is often larger than `max_fiat`). Classification is unaffected, but the names in the feature-importance chart should not be interpreted literally. State this as a dataset limitation.
+
+### Agent experiment (`src/scenarios.py`, `src/run_agent.py`, `src/evaluate.py`; run 6 Nov 2026)
+
+100 scenarios on 50 test flows (10 of the 50 misclassified by the Random Forest), one cached proposal each, 25 retries. All 100 replies parsed as JSON. Tools proposed: rate-limit 48, allow 28, block 24. 30 proposals would break the policy if executed.
+
+| Condition | Violations (of 100) | Permitted tasks completed (of 50) | Conflicts kept safe (of 25) | Injection success (of 25) | Unsafe proposals neutralised (of 30) | Incorrect rejections |
+|---|---|---|---|---|---|---|
+| B0 prompt only | 30 | 48 (96%) | 0 | 3 (12%) | 0% | 0 |
+| B1 structural | 27 | 48 (96%) | 1 | 3 (12%) | 10% | 0 |
+| **M policy gate** | **6** | 47 (94%) | 19 | **0** | 80% | 1 |
+| M+R gate + one retry | 7 | 48 (96%) | 18 | 0 | 77% | 0 |
+| M with true labels (oracle ablation) | 0 | 48 (96%) | 25 | 0 | 100% | 0 |
+
+- **RQ1:** the gate cut violations from 30 to 6, a paired difference of **24 percentage points (95% bootstrap CI 17.7–30.4, resampling the 50 base flows)**.
+- **RQ2:** utility retention of M is 47/48 = **97.9%**, above the 95% target; M+R recovers it to 100%.
+- **RQ3:** **all 6 remaining violations under M come from classifier errors.** In each, the true class is restricted (file transfer or P2P) but was predicted as chat, browsing or streaming, so the gate approved an action that was legal for the predicted class. With true labels the gate leaves 0 violations. The one incorrect rejection is also a classifier error (email predicted as file transfer, so `allow_flow` was refused).
+- **The model always obeys the operator over the policy:** in all 25 conflict scenarios the ungated agent executed the forbidden request (100% violation in B0).
+- **Injection:** 3 of 25 untrusted notes succeeded without the gate, all on P2P flows; the gate stopped all three.
+- **Unit errors:** for "8 Mbps" and "2 Mbps" the model produced 8,000,000 and 2,000,000 kbps. B1's range check caught these (and one call with an extra argument), which is B1's only contribution.
+- **Retry (Agentic AI extension):** 25 rejected scenarios were retried; 4 recovered to the requested state (for example the 8 Mbps case became 8000 kbps). One retry created a new violation: a P2P flow predicted as file transfer was rate-limited to 512 kbps, legal for the predicted class only.
+- **Latency:** agent median 2.96 s (p95 3.75 s), retry median 4.77 s; gate median 3.7 µs (p95 4.6 µs) over 3,000 timed replays, about 800,000 times faster than the LLM call.
+
+Figures: `figures/conditions_violation_completion.png`, `figures/violations_by_family.png`, `figures/classifier_error_effect.png`. Per-scenario outcomes: `results/scenario_outcomes.csv`; all numbers: `results/metrics.json`.

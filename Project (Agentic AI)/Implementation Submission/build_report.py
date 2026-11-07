@@ -25,7 +25,7 @@ from reportlab.platypus import (Image, KeepTogether, Paragraph, SimpleDocTemplat
 HERE = Path(__file__).resolve().parent
 IMPL = HERE.parents[1] / "implementation"
 FIG, RES = IMPL / "figures", IMPL / "results"
-OUT = HERE / "23i-2538_23i-2536_Implementation_Report.pdf"
+OUT = HERE / "23i-2538_23i-2536_DS-A_Implementation_Report.pdf"
 COPY_TO = [Path(p) for p in sys.argv[1:]]   # optional extra destinations (e.g. a submission folder)
 
 FONTS = Path("C:/Windows/Fonts")

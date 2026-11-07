@@ -147,9 +147,9 @@ P("An LLM agent receives a network flow, the application predicted for it by a t
   "policy-violating actions while preserving legitimate task completion, and how classifier errors affect "
   "the gate. Three research questions are evaluated:")
 B("<b>RQ1:</b> Does the gate reduce executed policy violations compared with prompt-only enforcement on identical proposals?")
-B("<b>RQ2:</b> Does the gate preserve completion of permitted tasks (target: at least 95% of the ungated rate)?")
+B("<b>RQ2:</b> Does the gate preserve completion of permitted tasks (threshold: completion at least 95% of the ungated rate)?")
 B("<b>RQ3:</b> Which classifier errors change authorisation decisions?")
-P("An agentic extension measures recovery when the gate's rejection reason is returned to the agent for one retry.")
+P("A retry condition (M+R) measures recovery when the gate's rejection reason is returned to the agent for one retry.")
 
 P("2. System Design", "h1")
 figure(FIG / "architecture.png", 16.5, "Figure 1. System architecture. The gate reads the classifier's prediction "
@@ -361,7 +361,7 @@ P("The agent performs a single tool call per scenario, followed by at most one o
   "Single-step proposals allow the same proposal to be replayed under every condition, so differences between "
   "conditions are attributable to the gate alone. The policy consists of three static rules that depend only on the "
   "application. A multi-step ReAct-style loop [4] and stateful rules (time-of-day schedules, per-hour action counters "
-  "and bandwidth budgets) were not implemented and remain future work.")
+  "and bandwidth budgets) are outside the scope of this study and are left for future work.")
 
 P("6. Conclusion", "h1")
 P("A deterministic gate between a local LLM agent and a simulated network reduced executed policy violations from "

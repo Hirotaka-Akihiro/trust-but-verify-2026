@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><title>Trust, but verify</title>
+<style>
+:root{--bg:#0c0c0b;--fg:#ebe7dc;--dim:#5e5c56;--acc:#ffb000;--no:#ff4d3d}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;background:#000;color:var(--fg);font-family:"JetBrains Mono","IBM Plex Mono",Consolas,monospace;-webkit-font-smoothing:antialiased}
+.s{display:none;position:absolute;inset:0;margin:auto;width:min(100vw,177.78vh);height:min(56.25vw,100vh);background:var(--bg);padding:8% 9% 7%;grid-template-rows:1fr auto;overflow:hidden}
+.s.on{display:grid;animation:in .5s ease}
+@keyframes in{from{opacity:0}to{opacity:1}}
+.body{align-self:center}
+.foot{display:flex;justify-content:space-between;font-size:12px;letter-spacing:.1em;color:var(--dim)}
+h1,h2{font-family:Georgia,"Times New Roman",serif;font-weight:400;letter-spacing:-.02em}
+h1{font-size:clamp(44px,6.2vw,104px);line-height:1}
+h2{font-size:clamp(30px,3.6vw,60px);line-height:1.1;max-width:16em}
+.log{font-size:clamp(13px,1.15vw,19px);line-height:2;white-space:pre;color:var(--dim)}
+.log b{font-weight:400;color:var(--fg)}
+.acc{color:var(--acc)}.no{color:var(--no)}
+.sm{font-size:clamp(13px,1.1vw,17px);color:var(--dim);line-height:1.7;max-width:46em}
+.gap{margin-top:clamp(28px,4vw,64px)}
+.num{font-family:Georgia,serif;font-size:clamp(90px,14vw,240px);line-height:.85;letter-spacing:-.04em}
+.row{display:grid;grid-template-columns:12em 1fr 4em;gap:24px;align-items:center;font-size:clamp(13px,1.15vw,18px);color:var(--dim);margin:14px 0}
+.row i{display:block;height:2px;background:var(--dim)}
+.row.m{color:var(--acc)}.row.m i{background:var(--acc);height:2px}
+.prog{position:absolute;left:0;bottom:0;height:2px;background:var(--acc);transition:width .4s}
+</style></head><body>
+
+<!-- 0:00–0:25 · Hook: a real rejection -->
+<section class="s on"><div class="body">
+  <div class="log">S055  flow F08299 · p2p
+<b>allow_flow</b>("F08299")   <span class="no">rejected · P1</span></div>
+  <h1 class="gap">Trust, but verify.</h1>
+  <p class="sm" style="margin-top:20px">Deterministic gating for LLM agents that enforce network traffic policy.</p>
+</div><div class="foot"><span>Aamir · Toor · Kiani — FAST NUCES</span><span>01</span></div></section>
+
+<!-- 0:25–0:55 · Problem -->
+<section class="s"><div class="body">
+  <div class="num no">30<span style="color:var(--dim);font-size:.35em">/100</span></div>
+  <h2 class="gap">proposals from the model broke the policy it had just been given.</h2>
+  <p class="sm" style="margin-top:20px">Llama‑3.2‑3B, local, one flow, one tool call. Prompting alone failed under conflicting goals and injected instructions.</p>
+</div><div class="foot"><span>The failure</span><span>02</span></div></section>
+
+<!-- 0:55–1:30 · Architecture -->
+<section class="s"><div class="body">
+  <h2>The model may speak.<br><span class="acc">Only the gate may act.</span></h2>
+  <div class="log gap"><b>classifier</b>   trusted        labels the flow
+<b>LLM</b>          untrusted      proposes one action
+<span class="acc">gate</span>         deterministic  checks schema · identity · rules
+<b>network</b>      effect         runs only what passed</div>
+  <p class="sm gap">P1 p2p: block only · P2 streaming / file transfer: block or ≤ 1024 kbps · P3 other: any action ≤ 10 000 kbps</p>
+</div><div class="foot"><span>The checkpoint</span><span>03</span></div></section>
+
+<!-- 1:30–2:10 · Results -->
+<section class="s"><div class="body">
+  <h2>Same 100 proposals, replayed.</h2>
+  <div class="gap">
+    <div class="row"><span>prompt only</span><i style="width:100%"></i><span>30%</span></div>
+    <div class="row"><span>schema gate</span><i style="width:90%"></i><span>27%</span></div>
+    <div class="row m"><span>policy gate</span><i style="width:20%"></i><span>6%</span></div>
+    <div class="row"><span>gate + retry</span><i style="width:23%"></i><span>7%</span></div>
+  </div>
+  <p class="sm gap">policy violations · injection success 12% → <span class="acc">0%</span> · legitimate tasks 96% → 94%, back to 96% with retry · gap CI 17.7–30.4 pts</p>
+</div><div class="foot"><span>The replay</span><span>04</span></div></section>
+
+<!-- 2:10–2:35 · Cost -->
+<section class="s"><div class="body">
+  <div class="log">gate decision</div><div class="num acc" style="font-size:clamp(70px,10vw,170px)">3.6 µs</div>
+  <div class="log gap">model proposal</div><div class="num" style="font-size:clamp(70px,10vw,170px)">2.96 s</div>
+  <p class="sm gap">Verification is not the bottleneck. Deliberation is.</p>
+</div><div class="foot"><span>The price</span><span>05</span></div></section>
+
+<!-- 2:35–3:00 · Residual -->
+<section class="s"><div class="body">
+  <div class="log">S054  flow F08264 · file_transfer, <b>labelled browsing</b>
+<b>allow_flow</b>("F08264")   <span class="acc">passed</span></div>
+  <h2 class="gap">All six remaining violations came from a wrong label. With true labels: <span class="acc">zero.</span></h2>
+  <p class="sm" style="margin-top:20px">The risk left the model's head and now sits in a label we can audit.</p>
+</div><div class="foot"><span>github.com/Hirotaka-Akihiro/trust-but-verify-2026</span><span>06</span></div></section>
+
+<div class="prog" id="p"></div>
+<script>
+const S=[...document.querySelectorAll('.s')],P=document.getElementById('p');let c=0;
+const go=d=>{S[c].classList.remove('on');c=Math.max(0,Math.min(S.length-1,c+d));S[c].classList.add('on');P.style.width=((c+1)/S.length*100)+'%'};go(0);
+addEventListener('keydown',e=>{if(['ArrowRight',' ','PageDown'].includes(e.key))go(1);if(['ArrowLeft','PageUp'].includes(e.key))go(-1)});addEventListener('click',()=>go(1));
+</script></body></html>

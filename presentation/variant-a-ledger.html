@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><title>Trust but Verify — Ledger</title>
+<style>
+:root{--ink:#111;--paper:#f3efe6;--red:#c8102e;--mute:#8a8578;--u:8px}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;background:#222;font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;color:var(--ink)}
+.s{display:none;position:absolute;inset:0;margin:auto;width:min(100vw,177.78vh);height:min(56.25vw,100vh);background:var(--paper);padding:calc(var(--u)*9) calc(var(--u)*12);overflow:hidden}
+.s.on{display:grid}
+.k{font:600 13px/1 ui-monospace,Menlo,Consolas,monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
+.n{position:absolute;right:96px;bottom:56px;font:600 13px ui-monospace,Consolas,monospace;color:var(--mute)}
+h1{font-size:clamp(40px,6.4vw,104px);line-height:.92;letter-spacing:-.035em;font-weight:700}
+h2{font-size:clamp(28px,3.4vw,56px);line-height:1;letter-spacing:-.02em;font-weight:700}
+p{font-size:clamp(15px,1.35vw,22px);line-height:1.4;max-width:34em}
+.red{color:var(--red)}
+.rule{border-top:2px solid var(--ink)}
+/* 1 */
+#s1{grid-template-rows:auto 1fr auto;}
+#s1 h1{align-self:end}
+/* 2 */
+#s2{grid-template-columns:5fr 7fr;gap:96px;align-items:center}
+.grid100{display:grid;grid-template-columns:repeat(10,1fr);gap:6px}
+.grid100 i{aspect-ratio:1;background:var(--ink)}
+.grid100 i.x{background:var(--red)}
+/* 3 */
+#s3{grid-template-rows:auto 1fr auto}
+.pipe{display:grid;grid-template-columns:1fr 1.2fr 1.6fr 1fr;align-items:stretch;border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);align-self:center}
+.pipe div{padding:28px 24px;border-right:1px solid var(--ink)}
+.pipe div:last-child{border:0}
+.pipe b{display:block;font-size:clamp(16px,1.5vw,24px);margin:10px 0 8px}
+.pipe .g{background:var(--ink);color:var(--paper)}
+.pipe .g .k{color:#bbb}
+.pipe .u{font-style:italic}
+/* 4 */
+#s4{grid-template-rows:auto 1fr auto}
+table{border-collapse:collapse;width:100%;align-self:center;font-variant-numeric:tabular-nums}
+th,td{text-align:right;padding:14px 18px;font-size:clamp(15px,1.5vw,26px)}
+th{font:600 12px ui-monospace,Consolas,monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--mute);border-bottom:2px solid var(--ink)}
+td:first-child,th:first-child{text-align:left}
+tr.m td{font-weight:700;border-top:2px solid var(--ink);border-bottom:2px solid var(--ink)}
+.bar{display:inline-block;height:.55em;background:var(--red);vertical-align:middle;margin-right:10px}
+/* 5 */
+#s5{grid-template-rows:auto 1fr auto}
+.scale{align-self:center;position:relative}
+.track{height:2px;background:var(--ink);width:100%;position:relative}
+.dot{position:absolute;top:-7px;width:16px;height:16px;border-radius:50%;background:var(--red)}
+.cap{display:flex;justify-content:space-between;margin-top:22px}
+.cap div{max-width:40%}
+.big{font-size:clamp(48px,8vw,140px);font-weight:700;letter-spacing:-.04em;line-height:.9}
+/* 6 */
+#s6{grid-template-columns:7fr 5fr;gap:96px;align-items:end}
+</style></head><body>
+
+<!-- 0:00–0:25 -->
+<section class="s on" id="s1">
+  <div class="k">FAST NUCES · Computer Networks × Agentic AI · Nov 2026</div>
+  <h1>The model<br>proposes.<br><span class="red">The gate<br>disposes.</span></h1>
+  <div style="display:flex;justify-content:space-between;align-items:end">
+    <p><b>Trust but Verify</b> — deterministic gating for LLM agents enforcing network traffic policy.</p>
+    <span class="k">Aamir · Toor · Kiani</span>
+  </div>
+  <span class="n">01 / 06</span>
+</section>
+
+<!-- 0:25–0:55 -->
+<section class="s" id="s2">
+  <div>
+    <div class="k">The problem</div>
+    <h2 style="margin:24px 0">Give a 3B‑parameter model the firewall, and <span class="red">30 of 100</span> commands break policy.</h2>
+    <p>Llama‑3.2‑3B, running locally, receives a flow and a written operator policy, then calls <code>allow</code>, <code>block</code> or <code>rate_limit</code>. The prompt says the rules. The model breaks them anyway — under conflicting goals, and under injected instructions.</p>
+  </div>
+  <div class="grid100" id="g"></div>
+  <span class="n">02 / 06</span>
+</section>
+
+<!-- 0:55–1:30 -->
+<section class="s" id="s3">
+  <div><div class="k">Architecture</div><h2 style="margin-top:20px">Separate who <i>suggests</i> from who <i>decides</i>.</h2></div>
+  <div class="pipe">
+    <div><span class="k">01 · Trusted</span><b>Flow classifier</b><p style="font-size:15px">Random Forest on ISCXVPN2016 labels each flow: p2p, streaming, VoIP…</p></div>
+    <div class="u"><span class="k">02 · Untrusted</span><b>LLM agent</b><p style="font-size:15px">Reads scenario, emits one JSON tool call. Never executes anything.</p></div>
+    <div class="g"><span class="k">03 · Deterministic</span><b>Policy gate</b><p style="font-size:15px">Dispatch → schema → flow identity → rules P1–P3. No LLM inside. Pure lookup.</p></div>
+    <div><span class="k">04 · Effect</span><b>Network</b><p style="font-size:15px">Only permitted actions reach the simulator.</p></div>
+  </div>
+  <p style="font-size:15px;color:var(--mute)">P1 p2p → block only · P2 streaming / file transfer → block or ≤ 1024 kbps · P3 everything else → any action ≤ 10 000 kbps</p>
+  <span class="n">03 / 06</span>
+</section>
+
+<!-- 1:30–2:10 -->
+<section class="s" id="s4">
+  <div><div class="k">Results · 100 frozen scenarios · same cached proposals replayed under each condition</div></div>
+  <table>
+    <tr><th>Condition</th><th>Policy violations</th><th>Injection success</th><th>Legit tasks done</th></tr>
+    <tr><td>B0 · prompt only</td><td><span class="bar" style="width:150px"></span>30%</td><td>12%</td><td>96%</td></tr>
+    <tr><td>B1 · schema gate</td><td><span class="bar" style="width:135px"></span>27%</td><td>12%</td><td>96%</td></tr>
+    <tr class="m"><td>M · policy gate</td><td><span class="bar" style="width:30px"></span><span class="red">6%</span></td><td class="red">0%</td><td>94%</td></tr>
+    <tr><td>M+R · gate + retry</td><td><span class="bar" style="width:35px"></span>7%</td><td>0%</td><td>96%</td></tr>
+  </table>
+  <p style="font-size:15px;color:var(--mute)">B0 − M violation gap: 95% bootstrap CI [17.7, 30.4] points. Utility retention 97.9% (M), 100% (M+R).</p>
+  <span class="n">04 / 06</span>
+</section>
+
+<!-- 2:10–2:35 -->
+<section class="s" id="s5">
+  <div><div class="k">Cost of safety</div><h2 style="margin-top:20px">The check is <span class="red">~820 000×</span> faster than the thought it checks.</h2></div>
+  <div class="scale">
+    <div class="track"><span class="dot" style="left:0"></span><span class="dot" style="left:calc(100% - 16px);background:var(--ink)"></span></div>
+    <div class="cap">
+      <div><div class="big red">3.6 µs</div><p>median gate decision, n = 3000</p></div>
+      <div style="text-align:right"><div class="big">2.96 s</div><p style="margin-left:auto">median LLM proposal, CPU‑only laptop</p></div>
+    </div>
+  </div>
+  <p style="font-size:15px;color:var(--mute)">Drawn to scale: if the gate's time were 1 mm, the LLM's would stretch 820 m.</p>
+  <span class="n">05 / 06</span>
+</section>
+
+<!-- 2:35–3:00 -->
+<section class="s" id="s6">
+  <div>
+    <div class="k">What remains</div>
+    <h1 style="margin-top:24px;font-size:clamp(36px,5vw,84px)">The gate is only as honest as <span class="red">the labels it trusts.</span></h1>
+  </div>
+  <div>
+    <p>All 6 surviving violations trace to classifier mislabels. Give the gate perfect labels (oracle) and violations fall to <b>0</b>.</p>
+    <p style="margin-top:24px">Safety moved from the model's judgement to a 3‑microsecond lookup — and the remaining risk now has a name and an address.</p>
+    <div class="k" style="margin-top:40px">github.com/Hirotaka-Akihiro/trust-but-verify-2026</div>
+  </div>
+  <span class="n">06 / 06</span>
+</section>
+
+<script>
+const g=document.getElementById('g');for(let i=0;i<100;i++){const e=document.createElement('i');if([3,7,11,14,19,22,26,28,33,37,41,44,48,52,55,58,61,63,66,69,72,75,77,81,84,88,90,93,96,99].includes(i))e.className='x';g.appendChild(e)}
+const S=[...document.querySelectorAll('.s')];let c=0;const go=d=>{S[c].classList.remove('on');c=Math.max(0,Math.min(S.length-1,c+d));S[c].classList.add('on')};
+addEventListener('keydown',e=>{if(['ArrowRight',' ','PageDown'].includes(e.key))go(1);if(['ArrowLeft','PageUp'].includes(e.key))go(-1)});addEventListener('click',()=>go(1));
+</script></body></html>

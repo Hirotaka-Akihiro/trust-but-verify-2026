@@ -84,3 +84,14 @@ Incomplete permitted tasks: B0 {S035, S042} (unit errors); M {S035, S042, S043};
 - The LLM step itself is not re-queried in a reproduction: its 100 + 25 raw replies are stored in `results/proposals.jsonl` and `results/retries.jsonl`, with the exact model hash, runtime build and settings (temperature 0, seed 42) in the README. Everything downstream is replayed from those files.
 
 Figures: `figures/conditions_violation_completion.png`, `figures/violations_by_family.png`, `figures/classifier_error_effect.png`. Per-scenario outcomes: `results/scenario_outcomes.csv`; all numbers: `results/metrics.json`.
+
+### Networks-specific evaluation (`src/cnet_extra.py`, `results/cnet_extra.json`; added 13 Nov 2026)
+
+No LLM calls; classifier-only tests for the Computer Networks Phase 3 report.
+
+- **Base-paper comparison.** Draper-Gil et al. (ICISSP 2016) report best average precision 0.783 (C4.5) and 0.711 (KNN) on Scenario B (14 classes, Weka, 10-fold CV). Re-implemented under the same protocol at 15 s: C4.5-style tree 0.808, 1-NN 0.745, **Random Forest 0.855** weighted precision (macro-F1 0.765 / 0.690 / 0.817). The Random Forest leads at every timeout (0.855 / 0.845 / 0.826 / 0.819).
+- **Timeout robustness (7-class protocol).** Random Forest test macro-F1 0.837 / 0.861 / 0.811 / 0.812 at 15 / 30 / 60 / 120 s.
+- **Feature-group ablation.** Removing forward/backward inter-arrival features costs 0.030 macro-F1 and packet/byte rates 0.025; the other groups are redundant (changes of 0.012 or less).
+- **VPN transfer.** Training on non-VPN flows and testing on VPN flows gives macro-F1 0.458, against 0.806 with mixed training (VPN to non-VPN: 0.564).
+
+Figures: `figures/timeout_robustness.png`, `figures/feature_ablation.png`.

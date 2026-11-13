@@ -2,7 +2,7 @@
   "selected_by_val_macro_f1": "RandomForest",
   "models": {
     "Majority": {
-      "fit_seconds": 0.004,
+      "fit_seconds": 0.005,
       "val": {
         "accuracy": 0.283,
         "macro_precision": 0.040428571428571425,
@@ -19,7 +19,7 @@
           "voip": 0.441153546375682
         }
       },
-      "predict_ms_per_flow": 0.0,
+      "predict_ms_per_flow": 0.0001,
       "test": {
         "accuracy": 0.2825,
         "macro_precision": 0.040357142857142855,
@@ -38,7 +38,7 @@
       }
     },
     "DecisionTree": {
-      "fit_seconds": 0.101,
+      "fit_seconds": 0.158,
       "val": {
         "accuracy": 0.794,
         "macro_precision": 0.7129328616987632,
@@ -74,7 +74,7 @@
       }
     },
     "RandomForest": {
-      "fit_seconds": 0.523,
+      "fit_seconds": 0.709,
       "val": {
         "accuracy": 0.8765,
         "macro_precision": 0.8388169831770522,
@@ -91,7 +91,7 @@
           "voip": 0.9937777777777778
         }
       },
-      "predict_ms_per_flow": 0.0177,
+      "predict_ms_per_flow": 0.0311,
       "test": {
         "accuracy": 0.8775,
         "macro_precision": 0.8340587466922328,

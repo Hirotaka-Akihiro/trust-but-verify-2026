@@ -1,0 +1,217 @@
+{
+  "base_paper_reported": {
+    "source": "Draper-Gil et al., ICISSP 2016, Scenario B (14 classes, Weka, 10-fold CV)",
+    "best_average_precision": {
+      "C4.5": 0.783,
+      "KNN": 0.711
+    },
+    "note": "Best average precision across timeouts, as reported in the paper text; per-timeout values appear only in its Figure 3."
+  },
+  "base_protocol": {
+    "15s": {
+      "n_flows": 18758,
+      "n_classes": 14,
+      "C4.5-style tree": {
+        "accuracy": 0.8062160145004797,
+        "weighted_precision": 0.8079836017946863,
+        "weighted_recall": 0.8062160145004797,
+        "macro_f1": 0.7654625062867473
+      },
+      "1-NN (normalised)": {
+        "accuracy": 0.7355794860859367,
+        "weighted_precision": 0.7449104239451498,
+        "weighted_recall": 0.7355794860859367,
+        "macro_f1": 0.6900906612643111
+      },
+      "Random Forest (ours)": {
+        "accuracy": 0.8515300138607528,
+        "weighted_precision": 0.8553330695975345,
+        "weighted_recall": 0.8515300138607528,
+        "macro_f1": 0.817016464350443
+      }
+    },
+    "30s": {
+      "n_flows": 14651,
+      "n_classes": 14,
+      "C4.5-style tree": {
+        "accuracy": 0.7874547812436011,
+        "weighted_precision": 0.7890210145704436,
+        "weighted_recall": 0.7874547812436011,
+        "macro_f1": 0.7523394121411965
+      },
+      "1-NN (normalised)": {
+        "accuracy": 0.731827179032148,
+        "weighted_precision": 0.7429171257559245,
+        "weighted_recall": 0.731827179032148,
+        "macro_f1": 0.6956891367154839
+      },
+      "Random Forest (ours)": {
+        "accuracy": 0.8416490341956181,
+        "weighted_precision": 0.8446639915994364,
+        "weighted_recall": 0.8416490341956181,
+        "macro_f1": 0.806510047005915
+      }
+    },
+    "60s": {
+      "n_flows": 15515,
+      "n_classes": 14,
+      "C4.5-style tree": {
+        "accuracy": 0.7699645504350628,
+        "weighted_precision": 0.7731379699894885,
+        "weighted_recall": 0.7699645504350628,
+        "macro_f1": 0.7190058891960901
+      },
+      "1-NN (normalised)": {
+        "accuracy": 0.7118917176925555,
+        "weighted_precision": 0.723801046297878,
+        "weighted_recall": 0.7118917176925555,
+        "macro_f1": 0.6560797756946394
+      },
+      "Random Forest (ours)": {
+        "accuracy": 0.8183048662584596,
+        "weighted_precision": 0.8264181909291083,
+        "weighted_recall": 0.8183048662584596,
+        "macro_f1": 0.7744004584224685
+      }
+    },
+    "120s": {
+      "n_flows": 10782,
+      "n_classes": 14,
+      "C4.5-style tree": {
+        "accuracy": 0.7674828417733259,
+        "weighted_precision": 0.7671342608980735,
+        "weighted_recall": 0.7674828417733259,
+        "macro_f1": 0.716418811604771
+      },
+      "1-NN (normalised)": {
+        "accuracy": 0.7042292710072343,
+        "weighted_precision": 0.7282464707964974,
+        "weighted_recall": 0.7042292710072343,
+        "macro_f1": 0.6523116604507855
+      },
+      "Random Forest (ours)": {
+        "accuracy": 0.8149693934335003,
+        "weighted_precision": 0.8185722685501946,
+        "weighted_recall": 0.8149693934335003,
+        "macro_f1": 0.773222012567613
+      }
+    }
+  },
+  "timeout_robustness": {
+    "15s": {
+      "n_after_cleaning_and_sampling": 10000,
+      "Decision Tree": {
+        "accuracy": 0.803,
+        "weighted_precision": 0.8209548918627859,
+        "weighted_recall": 0.803,
+        "macro_f1": 0.7421188248940229
+      },
+      "Random Forest": {
+        "accuracy": 0.8775,
+        "weighted_precision": 0.8815590923516231,
+        "weighted_recall": 0.8775,
+        "macro_f1": 0.8374552390026638
+      }
+    },
+    "30s": {
+      "n_after_cleaning_and_sampling": 10000,
+      "Decision Tree": {
+        "accuracy": 0.814,
+        "weighted_precision": 0.8279705344616157,
+        "weighted_recall": 0.814,
+        "macro_f1": 0.7705375860738541
+      },
+      "Random Forest": {
+        "accuracy": 0.888,
+        "weighted_precision": 0.8881345325415018,
+        "weighted_recall": 0.888,
+        "macro_f1": 0.860514981987332
+      }
+    },
+    "60s": {
+      "n_after_cleaning_and_sampling": 10000,
+      "Decision Tree": {
+        "accuracy": 0.774,
+        "weighted_precision": 0.7923442983889883,
+        "weighted_recall": 0.774,
+        "macro_f1": 0.7253941871228126
+      },
+      "Random Forest": {
+        "accuracy": 0.8615,
+        "weighted_precision": 0.8632358170640494,
+        "weighted_recall": 0.8615,
+        "macro_f1": 0.8109662835840608
+      }
+    },
+    "120s": {
+      "n_after_cleaning_and_sampling": 9425,
+      "Decision Tree": {
+        "accuracy": 0.7909814323607427,
+        "weighted_precision": 0.8146226722411188,
+        "weighted_recall": 0.7909814323607427,
+        "macro_f1": 0.7259177518584595
+      },
+      "Random Forest": {
+        "accuracy": 0.8705570291777188,
+        "weighted_precision": 0.8701619163366373,
+        "weighted_recall": 0.8705570291777188,
+        "macro_f1": 0.8120548901854262
+      }
+    }
+  },
+  "feature_ablation": {
+    "all_features_macro_f1": 0.8374552390026638,
+    "removed": {
+      "Flow duration": {
+        "n_removed": 1,
+        "macro_f1": 0.8395748594712673,
+        "drop": -0.002119620468603478
+      },
+      "Fwd/bwd inter-arrival": {
+        "n_removed": 8,
+        "macro_f1": 0.8076934673100798,
+        "drop": 0.029761771692583983
+      },
+      "Flow inter-arrival": {
+        "n_removed": 4,
+        "macro_f1": 0.8485459344583297,
+        "drop": -0.011090695455665878
+      },
+      "Packet / byte rate": {
+        "n_removed": 2,
+        "macro_f1": 0.8122493735975106,
+        "drop": 0.025205865405153238
+      },
+      "Active time": {
+        "n_removed": 4,
+        "macro_f1": 0.8438971015287363,
+        "drop": -0.006441862526072484
+      },
+      "Idle time": {
+        "n_removed": 4,
+        "macro_f1": 0.8490786499703554,
+        "drop": -0.011623410967691594
+      }
+    }
+  },
+  "vpn_transfer": {
+    "non-VPN -> VPN": {
+      "accuracy": 0.5216110019646365,
+      "weighted_precision": 0.6116593327192391,
+      "weighted_recall": 0.5216110019646365,
+      "macro_f1": 0.4580567596590327
+    },
+    "VPN -> non-VPN": {
+      "accuracy": 0.675152749490835,
+      "weighted_precision": 0.6835753885391224,
+      "weighted_recall": 0.675152749490835,
+      "macro_f1": 0.563609757437967
+    },
+    "mixed -> VPN (reference)": {
+      "accuracy": 0.8418467583497053,
+      "weighted_precision": 0.8522339236357112,
+      "weighted_recall": 0.8418467583497053,
+      "macro_f1": 0.8061666967456097
+    }
+  }
+}

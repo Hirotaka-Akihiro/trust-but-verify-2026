@@ -115,7 +115,8 @@ def main():
         ax.bar(x + (k - 0.5) * w, [res[name]["test"]["per_class_f1"][c] for c in ORDER], w,
                label=name.replace("Tree", " Tree").replace("Forest", " Forest"), color=col)
     ax.set_xticks(x, [NICE[c] for c in ORDER], rotation=20); ax.set_ylim(0, 1)
-    ax.set_ylabel("Test F1"); ax.legend(frameon=False, ncol=2, loc="lower right")
+    ax.set_ylabel("Test F1")
+    ax.legend(frameon=False, ncol=2, loc="lower center", bbox_to_anchor=(0.5, 1.0))
     ax.spines[["top", "right"]].set_visible(False); fig.tight_layout()
     fig.savefig(figs / "per_class_f1.png", dpi=300); plt.close(fig)
 

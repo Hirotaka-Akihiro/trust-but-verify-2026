@@ -1,7 +1,7 @@
 """Collect one LLM proposal per scenario (cached), then one retry for M rejections.
 
   results/proposals.jsonl  one line per scenario (resumable: finished IDs are skipped)
-  results/retries.jsonl    Agentic AI extension: one retry for scenarios rejected under M
+  results/retries.jsonl    retry condition (M+R): one retry for scenarios rejected under M
 Needs the llama.cpp server (start_llm_server.ps1).
 Run: python src/run_agent.py            (both passes)
 """
@@ -39,7 +39,7 @@ def main():
         append(out, {"id": s["id"], "prompt": prompt, **r})
         print(f"[{i:3d}/100] {s['id']} {s['family']:9s} {r['latency_s']:5.1f}s {r['raw'][:80]!r}", flush=True)
 
-    # Agentic extension: one retry with the gate's reason, for every M rejection.
+    # Retry condition (M+R): one retry with the gate's reason, for every M rejection.
     props = {r["id"]: r for r in load_jsonl(out)}
     rout = RES / "retries.jsonl"
     rdone = {r["id"] for r in load_jsonl(rout)}

@@ -115,7 +115,7 @@ figure("architecture.png", 15.5, "Figure 1. Implemented architecture. The gate r
 table([["Component", "Implementation"],
        ["Classifier", "scikit-learn Random Forest (100 trees, depth 16, min. 2 samples per leaf, balanced class "
         "weights, seed 42), selected over a Decision Tree by validation macro-F1"],
-       ["Agent", "Llama-3.2-3B-Instruct, 4-bit Q4_K_M, llama.cpp b12128 on CPU; temperature 0, seed 42, 2,048-token "
+       ["Agent", "Llama-3.2-3B-Instruct [4], 4-bit Q4_K_M, llama.cpp b12128 [5] on CPU; temperature 0, seed 42, 2,048-token "
         "context, 128 output tokens; one JSON tool call per scenario"],
        ["Tools", "allow_flow(flow_id), block_flow(flow_id), rate_limit_flow(flow_id, kbps 64–10,000)"],
        ["Policy", "P1 P2P: block only. P2 streaming, file transfer: block or limit ≤ 1,024 kbps. "

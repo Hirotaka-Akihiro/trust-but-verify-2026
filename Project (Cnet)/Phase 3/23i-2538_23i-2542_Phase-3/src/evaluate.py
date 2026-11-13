@@ -1,6 +1,6 @@
 """Replay cached proposals through every condition and score them (no new LLM calls).
 
-Conditions:  B0 prompt only | B1 structural | M policy gate | M+R gate + one retry (Agentic)
+Conditions:  B0 prompt only | B1 structural | M policy gate | M+R gate + one retry
 Ablation:    M-oracle = M with TRUE labels as trusted records (isolates classifier error, RQ3)
 
 Scoring uses its own policy table (below), written independently of policy.py.

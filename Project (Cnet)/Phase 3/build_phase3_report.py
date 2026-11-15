@@ -104,12 +104,12 @@ story.append(PageBreak())
 
 # ------------------------------------------------------------------ 1
 P("1. Implementation of the Proposed Methodology", "h1")
-P("The Phase 2 methodology was implemented end to end on a laptop CPU. A traffic classifier labels each "
-  "encrypted flow's application from time-related statistics; a local LLM agent receives the predicted "
-  "application, an operator request and the written policy, and proposes one network action; a deterministic "
-  "policy gate checks the proposal before a flow-state simulator executes it. Research questions: <b>RQ1</b> "
-  "does the gate reduce executed policy violations on identical proposals; <b>RQ2</b> does it retain at least 95% "
-  "of ungated task completion; <b>RQ3</b> which classifier errors change authorisation.")
+P("The proposed method was implemented in full and runs on a laptop CPU. A traffic classifier predicts each "
+  "encrypted flow's application from timing statistics. A local LLM agent receives the predicted application, an "
+  "operator request and the written policy, and proposes one network action. A deterministic policy gate checks "
+  "that action before a flow-state simulator carries it out. Three research questions are tested. <b>RQ1:</b> does "
+  "the gate reduce policy violations on the same proposals? <b>RQ2:</b> does it keep at least 95% of the tasks "
+  "completed without it? <b>RQ3:</b> which classifier mistakes change the actions that are allowed?")
 figure("architecture.png", 15.5, "Figure 1. Implemented architecture. The gate reads the classifier's prediction "
        "directly; rejected proposals leave the flow held; under M+R the rejection reason is returned once.")
 table([["Component", "Implementation"],
@@ -124,20 +124,19 @@ table([["Component", "Implementation"],
         "for the predicted application"],
        ["Simulator", "Dictionary of flow states (held, allowed, blocked, limited); every flow starts held"]],
       [3.0, 13.6], "Table 1. Implemented components.")
-P("1.1 Changes from the Phase 2 methodology", "h2")
-P("No instructor feedback was received on Phase 2. The following changes were required by the data or added "
-  "to strengthen the evaluation:")
-table([["Phase 2 plan", "Implemented", "Reason"],
+P("1.1 Changes from the original plan", "h2")
+P("The following changes were needed because of the data, or were added to make the evaluation stronger:")
+table([["Original plan", "Implemented", "Reason"],
        ["Packet-size features", "23 time-related features only", "The official feature release contains no "
         "packet-size fields"],
        ["Capture/session-separated split", "Duplicate and conflicting rows removed, then stratified split",
         "The files carry no capture, session, IP or port identifiers"],
        ["Median imputation", "The value −1 kept as a value", "In this release −1 marks a statistic that does not "
         "apply to the flow"],
-       ["B0, B1, M", "Added M+R (one retry) and M-oracle (true labels)", "Measures recovery after rejection and "
-        "isolates classifier error (RQ3)"],
-       ["Classifier comparison only", "Added base-paper re-implementation, timeout, feature-group and VPN-transfer "
-        "tests", "Comparison with existing research and robustness"]],
+       ["Three conditions (B0, B1, M)", "Added M+R (one retry) and M with true labels", "Measures recovery after a "
+        "rejection and separates out classifier mistakes (RQ3)"],
+       ["Classifier comparison only", "Added a rebuild of the base paper's setup, plus timeout, feature-group and "
+        "VPN-transfer tests", "Comparison with existing research and robustness"]],
       [4.0, 5.8, 6.8], "Table 2. Documented changes.")
 
 # ------------------------------------------------------------------ 2
@@ -184,11 +183,11 @@ for k, n in (("B0", "B0 prompt only (baseline)"), ("B1", "B1 structural checks (
 table(rows, [5.0, 2.3, 2.4, 2.2, 2.6, 2.1], "Table 4. Enforcement baselines and proposed gate on identical proposals.",
       bold_rows=(3,))
 d = ci["viol_B0_minus_M"]
-P(f"The gate reduces violations from 30 to 6: a paired difference of 24 percentage points (95% bootstrap CI "
-  f"{d['lo']*100:.1f}–{d['hi']*100:.1f}, 1,000 resamples of the 50 base flows). Utility retention is "
-  f"{m['utility_retention_M']*100:.1f}% (CI {ci['retention_M']['lo']*100:.1f}–100%). Gate latency is a median "
-  f"{m['gate_latency']['median_us']:.1f} µs (95th percentile {m['gate_latency']['p95_us']:.1f} µs); an agent call "
-  f"takes a median {m['agent_latency_s']['median']:.2f} s.")
+P(f"The gate reduces violations from 30 to 6, a drop of 24 percentage points on the same proposals (95% confidence "
+  f"interval {d['lo']*100:.1f}–{d['hi']*100:.1f}, from 1,000 bootstrap resamples of the 50 base flows). It keeps "
+  f"{m['utility_retention_M']*100:.1f}% of the tasks completed without it (interval {ci['retention_M']['lo']*100:.1f}–100%). "
+  f"A gate check takes a median {m['gate_latency']['median_us']:.1f} µs (95th percentile "
+  f"{m['gate_latency']['p95_us']:.1f} µs), while an agent call takes a median {m['agent_latency_s']['median']:.2f} s.")
 
 # ------------------------------------------------------------------ 4
 P("4. Graphical Results and Visualization", "h1")
@@ -202,12 +201,12 @@ figure("violations_by_family.png", 13, "Figure 5. Violation rate by scenario fam
 # ------------------------------------------------------------------ 5
 P("5. Comparison with Existing Research", "h1")
 P("5.1 Traffic classification against the dataset's base paper", "h2")
-P("Draper-Gil et al. [1] introduced the time-related features used here and evaluated them on Scenario B with "
-  "14 classes (VPN and non-VPN kept separate), Weka C4.5 and KNN, and 10-fold cross-validation. To compare under "
-  "the same setting, that protocol was re-implemented: 14 classes, the full uncleaned feature files, stratified "
-  "10-fold cross-validation, an entropy decision tree with at least 2 samples per leaf (C4.5-style) and 1-nearest "
-  "neighbour on min-max normalised features (Weka IBk defaults); the proposed Random Forest was run under the "
-  "identical protocol.")
+P("Draper-Gil et al. [1] introduced the time-related features used here. They tested them on Scenario B with "
+  "14 classes (VPN and non-VPN kept separate), using C4.5 and KNN classifiers in Weka with 10-fold cross-validation. "
+  "To compare on equal terms, that setup was rebuilt: 14 classes, the full feature files without cleaning, "
+  "stratified 10-fold cross-validation, a C4.5-style decision tree (entropy splits, at least 2 samples per leaf) "
+  "and a 1-nearest-neighbour classifier on features scaled to 0–1, as in Weka's defaults. The proposed Random "
+  "Forest was tested under exactly the same setup.")
 bp = x["base_protocol"]
 rows = [["Method", "Source", "15 s", "30 s", "60 s", "120 s", "Best"],
         ["C4.5 [1]", "Reported*", "–", "–", "–", "–", "0.783"],
@@ -221,38 +220,39 @@ table(rows, [3.8, 2.6, 1.9, 1.9, 1.9, 1.9, 1.9], "Table 5. Weighted precision un
       "in its text.", bold_rows=(5,))
 rf15, c45 = bp["15s"]["Random Forest (ours)"], bp["15s"]["C4.5-style tree"]
 P(f"The re-implemented C4.5-style tree reaches {c45['weighted_precision']:.3f} at 15 s, close to the reported 0.783, "
-  f"which supports a faithful re-implementation. The Random Forest improves weighted precision by "
+  f"so the re-implementation matches the original setup well. The Random Forest improves weighted precision by "
   f"{(rf15['weighted_precision']-c45['weighted_precision'])*100:.1f} points over the re-implemented tree "
   f"({(rf15['weighted_precision']-c45['weighted_precision'])/c45['weighted_precision']*100:.1f}% relative) and by "
   f"{(rf15['weighted_precision']-0.783)*100:.1f} points over the reported value, with macro-F1 "
-  f"{rf15['macro_f1']:.3f} against {c45['macro_f1']:.3f}. The gain comes from averaging many decorrelated trees, "
-  "which reduces the variance of single trees on overlapping timing distributions. Limitations of the comparison: "
-  "the base paper does not specify its averaging or KNN settings, and its cross-validation may mix flows from the "
-  "same capture across folds, as ours does in this protocol.")
-P("Elshewey and Osman [2] report 0.9949 accuracy and 0.9932 macro-F1 with stacked deep ensembles on a different "
-  "HTTPS dataset (145,671 flows, 88 features, six categories). The data, labels and features differ, so the "
-  "figures are not comparable; that work also evaluates classification only, not downstream authorisation.")
+  f"{rf15['macro_f1']:.3f} against {c45['macro_f1']:.3f}. The gain comes from averaging many different trees, which "
+  "gives more stable predictions when the timing patterns of different applications overlap. Two points limit this "
+  "comparison: the original paper does not state how it averages precision or which KNN settings it uses, and its "
+  "cross-validation, like ours here, may place flows from the same capture in different folds.")
+P("Elshewey and Osman [2] report 0.9949 accuracy and 0.9932 macro-F1 with stacked deep-learning models on a different "
+  "HTTPS dataset (145,671 flows, 88 features, six categories). Because the data, labels and features differ, these "
+  "numbers cannot be compared directly. That work also stops at classification and does not study which actions "
+  "are then allowed.")
 P("5.2 Policy enforcement against prior gating work", "h2")
 table([["Work", "Setting", "Reported result", "Difference from this work"],
-       ["ToolGuard [3]*", "Code guards before tool calls; τ-bench airline, 22 policy-violating tasks",
-        "pass^1 0.450 → 0.685", "Guards generated by an LLM; customer-service domain; inputs assumed correct"],
+       ["ToolGuard [3]*", "Code checks before tool calls; τ-bench airline, 22 policy-violating tasks",
+        "Single-attempt success 0.450 → 0.685", "Checks generated by an LLM; customer-service domain; inputs assumed correct"],
        ["This work", "Hand-written gate before network actions; 100 scenarios on ISCXVPN2016 flows",
-        "Violations 30 → 6; injections 3 → 0; 97.9% utility retained", "Gate inputs come from an imperfect "
-        "traffic classifier; residual risk measured (RQ3)"]],
+        "Violations 30 → 6; injections 3 → 0; 97.9% of completed tasks kept", "Gate inputs come from an imperfect "
+        "traffic classifier; remaining risk measured (RQ3)"]],
       [2.6, 4.6, 3.8, 5.6], "Table 6. Comparison with the base gating paper. *Reported on a different benchmark; not "
       "directly comparable.")
-P("ToolGuard shows that pre-execution code checks improve policy adherence when the facts they check are correct. "
-  "This work confirms the effect in a network setting and adds what ToolGuard does not measure: when the fact the "
-  "gate depends on, the traffic class, comes from a classifier, every remaining violation originates from "
-  "misclassification.")
+P("ToolGuard shows that code checks before an action improve policy compliance when the facts they check are "
+  "correct. This work finds the same effect for network actions and adds what ToolGuard does not measure: when the "
+  "fact the gate relies on, the traffic class, comes from a classifier, every remaining violation is caused by a "
+  "classification mistake.")
 
 # ------------------------------------------------------------------ 6
 P("6. Ablation Studies", "h1")
 table([["Ablation", "Change", "Result"],
        ["Enforcement layers", "B0 → B1 → M", f"Violations 30 → 27 → 6. Structural checks catch only the 2 unit errors "
         "and 1 malformed call; policy rules remove 21 more"],
-       ["Label source", "M with predicted vs true labels", "6 → 0 violations: all residual violations are classifier "
-        "errors; the 1 incorrect rejection is also a classifier error"],
+       ["Label source", "M with predicted vs true labels", "6 → 0 violations: all remaining violations are classifier "
+        "mistakes; the 1 incorrect rejection is also a classifier mistake"],
        ["Recovery", "M → M+R (one retry)", "4 of 25 rejected scenarios recovered; injection tasks completed 22 → 25; "
         "1 new classifier-driven violation"],
        ["Classifier model", "Decision Tree vs Random Forest", "Macro-F1 0.742 vs 0.837 (test); 0.765 vs 0.817 under "
@@ -260,34 +260,36 @@ table([["Ablation", "Change", "Result"],
        ["Flow timeout", "15 / 30 / 60 / 120 s", "Random Forest macro-F1 " + " / ".join(
            f3(x["timeout_robustness"][w]["Random Forest"]["macro_f1"]) for w in ("15s", "30s", "60s", "120s"))],
        ["Feature groups", "Remove one group", "Largest drops: forward/backward inter-arrival −0.030, packet/byte rate "
-        "−0.025; other groups redundant (≤ 0.012 change)"],
+        "−0.025; removing any other group changes it by 0.012 or less"],
        ["VPN transfer", "Train non-VPN, test VPN", f"Macro-F1 {x['vpn_transfer']['non-VPN -> VPN']['macro_f1']:.3f} vs "
         f"{x['vpn_transfer']['mixed -> VPN (reference)']['macro_f1']:.3f} with mixed training"]],
       [3.2, 4.2, 9.2], "Table 7. Ablation and robustness results.")
 figure("timeout_robustness.png", 11.5, "Figure 6. Test macro-F1 by flow timeout (7-class protocol).")
 figure("feature_ablation.png", 11.5, "Figure 7. Drop in Random Forest macro-F1 when one feature group is removed.")
-P("<b>Validation and reproducibility.</b> 20 hand-written gate tests pass under B0, B1 and M (60/60 checks). The gate "
-  f"agrees with an independently written policy table on all {au['exhaustive_gate_cases']:,} combinations of tool, "
-  "application and integer rate. Trusted records come only from the test split, no feature vector is shared across "
-  "splits, and no prompt contains the true label. Rerunning the pipeline from the stored agent replies reproduces "
-  "every reported value except timings. Code, data split, model hash and raw replies are included in the submission.")
+P("<b>Validation and reproducibility.</b> 20 hand-written gate tests pass under B0, B1 and M (60 of 60 checks). The "
+  f"gate gives the same answer as a separately written policy table on all {au['exhaustive_gate_cases']:,} "
+  "combinations of tool, application and rate. The gate only reads test-set predictions, no flow appears in two "
+  "splits, and no prompt contains the true label. Running the pipeline again from the stored agent replies gives the "
+  "same numbers, apart from timings. The code, data split, model hash and raw agent replies are provided with the "
+  "implementation.")
 
 # ------------------------------------------------------------------ 7
 P("7. Results Analysis and Discussion", "h1")
-P("<b>Research gap and objectives.</b> Phase 1 and 2 identified that no prior work evaluates an LLM agent applying a "
-  "written policy to classified network flows, nor the effect of classifier errors on authorisation. Both are now "
-  "measured. RQ1 is answered positively (−24 points, CI excluding zero); RQ2 is met as a point estimate (97.9% ≥ 95%), "
-  "with an interval reaching 93.5%; RQ3 shows that all residual violations are restricted flows predicted as "
-  "permissive classes.")
-P("<b>Strengths.</b> Identical proposals isolate the gate's effect; the gate is exhaustively verified against the "
-  "policy; it costs microseconds; the classifier outperforms the dataset's base paper under its own protocol; "
-  "results reproduce from stored outputs.")
-P("<b>Limitations.</b> One small LLM, one 2016 dataset without capture identifiers, a simulated network, 100 "
-  "scenarios written by the authors, three static rules and a single-step agent with at most one retry. The VPN "
-  "transfer result shows that a classifier trained only on non-VPN traffic does not carry over to VPN tunnels.")
-P("<b>Failure cases.</b> Six violations passed the gate, each a misclassified restricted flow (file transfer or P2P "
-  "predicted as chat, browsing or streaming). One retry chose a rate legal for the predicted class but not the true "
-  "one. Making the gate conservative under classifier uncertainty is the main direction for Phase 4.")
+P("<b>Research gap and objectives.</b> No earlier study tests an LLM agent that applies a written policy to classified "
+  "network flows, or measures how classifier mistakes change which actions are allowed. This work measures both. "
+  "RQ1: yes, the gate cuts violations by 24 points, and the confidence interval stays above zero. RQ2: met on "
+  "average, since the gate keeps 97.9% of completed tasks (target 95%), although the interval reaches down to 93.5%. "
+  "RQ3: every violation that remains is a restricted flow predicted as a more permissive class.")
+P("<b>Strengths.</b> All conditions use the same proposals, so any difference comes from the gate alone. The gate is "
+  "checked against the policy on every possible action, and it takes microseconds. The classifier beats the dataset's "
+  "original paper under that paper's own test setup, and every result can be reproduced from the stored outputs.")
+P("<b>Limitations.</b> The study uses one small LLM, one dataset from 2016 without capture identifiers, a simulated "
+  "network, 100 scenarios written by the authors, three fixed rules and an agent that makes one decision with at most "
+  "one retry. The VPN transfer test also shows that a classifier trained only on non-VPN traffic does not work well "
+  "on VPN traffic.")
+P("<b>Failure cases.</b> Six violations passed the gate. In each one a restricted flow (file transfer or P2P) was "
+  "predicted as chat, browsing or streaming. One retry chose a rate that was allowed for the predicted class but not "
+  "for the true one. A natural next step is a gate that becomes stricter when the classifier is unsure.")
 
 P("References", "h1")
 for r in [

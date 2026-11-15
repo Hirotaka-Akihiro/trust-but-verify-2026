@@ -110,6 +110,7 @@ P("The proposed method was implemented in full and runs on a laptop CPU. A traff
   "that action before a flow-state simulator carries it out. Three research questions are tested. <b>RQ1:</b> does "
   "the gate reduce policy violations on the same proposals? <b>RQ2:</b> does it keep at least 95% of the tasks "
   "completed without it? <b>RQ3:</b> which classifier mistakes change the actions that are allowed?")
+P("Figure 1 shows how the parts connect, and Table 1 lists each component and its settings.")
 figure("architecture.png", 15.5, "Figure 1. Implemented architecture. The gate reads the classifier's prediction "
        "directly; rejected proposals leave the flow held; under M+R the rejection reason is returned once.")
 table([["Component", "Implementation"],
@@ -125,7 +126,7 @@ table([["Component", "Implementation"],
        ["Simulator", "Dictionary of flow states (held, allowed, blocked, limited); every flow starts held"]],
       [3.0, 13.6], "Table 1. Implemented components.")
 P("1.1 Changes from the original plan", "h2")
-P("The following changes were needed because of the data, or were added to make the evaluation stronger:")
+P("Table 2 lists the changes from the original plan. Some were needed because of the data; others were added to make the evaluation stronger.")
 table([["Original plan", "Implemented", "Reason"],
        ["Packet-size features", "23 time-related features only", "The official feature release contains no "
         "packet-size fields"],
@@ -160,6 +161,8 @@ P("<b>Experimental setup.</b> HP 250 G9 laptop, Intel Core i5-1235U, 16 GB RAM, 
 
 # ------------------------------------------------------------------ 3
 P("3. Baseline Evaluation", "h1")
+P("Table 3 compares the classifiers. A majority-class predictor sets the lowest bar; the Decision Tree and the "
+  "Random Forest are the two candidates, and the Random Forest was chosen on validation data before testing.")
 mo = c["models"]; sr = c["seed_robustness"]
 table([["Classifier", "Val. macro-F1", "Test accuracy", "Test macro-F1", "Macro-F1, 5 seeds"],
        ["Majority class", f3(mo["Majority"]["val"]["macro_f1"]), f3(mo["Majority"]["test"]["accuracy"]),
@@ -173,6 +176,9 @@ pc = mo["RandomForest"]["test"]["per_class_f1"]; v = c["chosen_test_accuracy_by_
 P(f"Random Forest per-class F1: VoIP {pc['voip']:.3f}, browsing {pc['browsing']:.3f}, P2P {pc['p2p']:.3f}, "
   f"streaming {pc['streaming']:.3f}, file transfer {pc['file_transfer']:.3f}, email {pc['email']:.3f}, chat "
   f"{pc['chat']:.3f}. Accuracy is {v['non_vpn']*100:.1f}% on non-VPN and {v['vpn']*100:.1f}% on VPN flows.")
+P("Table 4 compares the two baselines with the proposed gate. B0 relies on the policy in the prompt alone; B1 "
+  "adds format, rate-range and flow-ID checks; M adds the policy rules. M+R and M with true labels are discussed "
+  "in Section 6.")
 rows = [["Condition", "Violations (of 100)", "Permitted done (of 50)", "Conflicts safe (of 25)",
          "Injections succeeded (of 25)", "Incorrect rejections"]]
 for k, n in (("B0", "B0 prompt only (baseline)"), ("B1", "B1 structural checks (baseline)"),
@@ -191,9 +197,21 @@ P(f"The gate reduces violations from 30 to 6, a drop of 24 percentage points on 
 
 # ------------------------------------------------------------------ 4
 P("4. Graphical Results and Visualization", "h1")
+dt_pc = mo["DecisionTree"]["test"]["per_class_f1"]
+P("Figure 2 shows where the Random Forest makes mistakes. VoIP and browsing are almost always correct. The most "
+  "common errors are file transfer predicted as chat (14% of file-transfer flows) and chat predicted as browsing "
+  "(13%). The first matters most for the policy, because file transfer is a restricted class and chat is not. "
+  f"Figure 3 shows that the Random Forest beats the Decision Tree on every class, with the largest gains on email "
+  f"({dt_pc['email']:.3f} to {pc['email']:.3f}) and file transfer ({dt_pc['file_transfer']:.3f} to "
+  f"{pc['file_transfer']:.3f}).")
 figure("confusion_matrix.png", 9.0, "Figure 2. Random Forest confusion matrix (row-normalised). 13.6% of file-transfer "
        "flows are predicted as chat, the most policy-relevant error.")
 figure("per_class_f1.png", 12.5, "Figure 3. Per-class test F1 of the two tree classifiers.")
+P("Figure 4 shows the main result. Violations fall from 30% without the gate to 6% with it, while the share of "
+  "permitted tasks completed stays between 94% and 96%. Figure 5 splits the violations by scenario type. Without "
+  "the gate, the agent broke the policy in every conflict scenario and in 3 of 25 injection scenarios. With the "
+  "gate, violations in permitted and injection scenarios drop to zero; the 6 that remain are all conflict "
+  "scenarios on misclassified flows.")
 figure("conditions_violation_completion.png", 13, "Figure 4. Violation rate and permitted-task completion per "
        "condition, with 95% bootstrap intervals.")
 figure("violations_by_family.png", 13, "Figure 5. Violation rate by scenario family and condition.")
@@ -219,7 +237,7 @@ table(rows, [3.8, 2.6, 1.9, 1.9, 1.9, 1.9, 1.9], "Table 5. Weighted precision un
       "(14 classes, 10-fold CV). *Taken from [1], which reports only the best average precision across timeouts "
       "in its text.", bold_rows=(5,))
 rf15, c45 = bp["15s"]["Random Forest (ours)"], bp["15s"]["C4.5-style tree"]
-P(f"The re-implemented C4.5-style tree reaches {c45['weighted_precision']:.3f} at 15 s, close to the reported 0.783, "
+P(f"Table 5 shows the results. The re-implemented C4.5-style tree reaches {c45['weighted_precision']:.3f} at 15 s, close to the reported 0.783, "
   f"so the re-implementation matches the original setup well. The Random Forest improves weighted precision by "
   f"{(rf15['weighted_precision']-c45['weighted_precision'])*100:.1f} points over the re-implemented tree "
   f"({(rf15['weighted_precision']-c45['weighted_precision'])/c45['weighted_precision']*100:.1f}% relative) and by "
@@ -241,7 +259,7 @@ table([["Work", "Setting", "Reported result", "Difference from this work"],
         "traffic classifier; remaining risk measured (RQ3)"]],
       [2.6, 4.6, 3.8, 5.6], "Table 6. Comparison with the base gating paper. *Reported on a different benchmark; not "
       "directly comparable.")
-P("ToolGuard shows that code checks before an action improve policy compliance when the facts they check are "
+P("Table 6 compares this work with ToolGuard [3]. ToolGuard shows that code checks before an action improve policy compliance when the facts they check are "
   "correct. This work finds the same effect for network actions and adds what ToolGuard does not measure: when the "
   "fact the gate relies on, the traffic class, comes from a classifier, every remaining violation is caused by a "
   "classification mistake.")
@@ -266,6 +284,33 @@ table([["Ablation", "Change", "Result"],
       [3.2, 4.2, 9.2], "Table 7. Ablation and robustness results.")
 figure("timeout_robustness.png", 11.5, "Figure 6. Test macro-F1 by flow timeout (7-class protocol).")
 figure("feature_ablation.png", 11.5, "Figure 7. Drop in Random Forest macro-F1 when one feature group is removed.")
+P("Table 7 summarises the ablations; each component is discussed below.")
+P("<b>Enforcement layers.</b> The structural checks (B1) prevent only 3 of the 30 violations: the 2 unit errors, "
+  "where the agent wrote 8,000,000 kbps for 8 Mbps, and 1 malformed call. The policy rules (M) prevent 21 more. "
+  "Most of the gate's value therefore comes from the policy rules, while the structural checks catch a different "
+  "kind of mistake: the right intent written with the wrong number.")
+P("<b>Label source.</b> When the gate is given the true application labels, all 6 remaining violations and the "
+  "single incorrect rejection disappear. The gate makes no mistakes of its own; every remaining error starts with "
+  "a wrong label from the classifier.")
+P("<b>Retry.</b> Sending the rejection reason back to the agent recovers 4 of the 25 rejected tasks: the 8 Mbps "
+  "request is corrected to 8,000 kbps, and the 3 injected flows end up blocked as the operator asked. In one case "
+  "the retry picked a rate that was allowed for the predicted class but not for the true one. A retry helps the "
+  "agent fix its own mistakes, but it cannot fix a wrong label.")
+P(f"<b>Classifier.</b> The Random Forest beats the Decision Tree by "
+  f"{(mo['RandomForest']['test']['macro_f1']-mo['DecisionTree']['test']['macro_f1']):.3f} macro-F1 on the test set "
+  f"and by {(x['base_protocol']['15s']['Random Forest (ours)']['macro_f1']-x['base_protocol']['15s']['C4.5-style tree']['macro_f1']):.3f} "
+  "under the original paper's setup. Since every remaining violation comes from a mislabelled flow, a better "
+  "classifier directly means fewer violations that pass the gate.")
+P("<b>Flow timeout (Figure 6).</b> The Random Forest stays between 0.81 and 0.86 macro-F1 for all four timeouts and "
+  "is better than the Decision Tree at every one, so the result does not depend on the 15-second choice.")
+P("<b>Feature groups (Figure 7).</b> Only two groups matter: removing the forward/backward inter-arrival times "
+  "lowers macro-F1 by 0.030, and removing the packet and byte rates lowers it by 0.025. Removing any other group "
+  "changes it very little, and slightly improves it in some cases, so those groups add no new information.")
+P(f"<b>VPN transfer.</b> A Random Forest trained only on non-VPN flows reaches "
+  f"{x['vpn_transfer']['non-VPN -> VPN']['macro_f1']:.3f} macro-F1 on VPN flows, against "
+  f"{x['vpn_transfer']['mixed -> VPN (reference)']['macro_f1']:.3f} when VPN flows are included in training. A VPN "
+  "tunnel changes the timing of the traffic inside it, so a classifier placed in front of a policy gate must be "
+  "trained on the kind of traffic it will see.")
 P("<b>Validation and reproducibility.</b> 20 hand-written gate tests pass under B0, B1 and M (60 of 60 checks). The "
   f"gate gives the same answer as a separately written policy table on all {au['exhaustive_gate_cases']:,} "
   "combinations of tool, application and rate. The gate only reads test-set predictions, no flow appears in two "
@@ -287,9 +332,9 @@ P("<b>Limitations.</b> The study uses one small LLM, one dataset from 2016 witho
   "network, 100 scenarios written by the authors, three fixed rules and an agent that makes one decision with at most "
   "one retry. The VPN transfer test also shows that a classifier trained only on non-VPN traffic does not work well "
   "on VPN traffic.")
-P("<b>Failure cases.</b> Six violations passed the gate. In each one a restricted flow (file transfer or P2P) was "
-  "predicted as chat, browsing or streaming. One retry chose a rate that was allowed for the predicted class but not "
-  "for the true one. A natural next step is a gate that becomes stricter when the classifier is unsure.")
+P("<b>Failure cases.</b> Six violations passed the gate, each a restricted flow (file transfer or P2P) predicted as "
+  "chat, browsing or streaming. One retry chose a rate allowed for the predicted class but not the true one. A "
+  "natural next step is a gate that becomes stricter when the classifier is unsure.")
 
 P("References", "h1")
 for r in [

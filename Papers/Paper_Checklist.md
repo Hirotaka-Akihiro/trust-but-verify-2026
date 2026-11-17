@@ -26,8 +26,8 @@ Automated checks: `python Papers/paper_lint.py <CN.pdf> <AG.pdf>` (calibrated on
 | 1.1 | Author list exactly as in §0, full names written the same way as in the reference papers ("Muhammad Abdullah Aamir") | ☐ | ☐ |
 | 1.2 | No name, roll number or email from the other team anywhere (title block, acknowledgements, metadata) | ☐ | ☐ |
 | 1.3 | Affiliation line matches the reference papers: "Department of Data Science, FAST-NUCES, Islamabad, Pakistan" | ☐ | ☐ |
-| 1.4 | Decide and apply consistently: is the course instructor listed as corresponding author (the reference papers list faculty with ∗ and email)? | ☐ | ☐ |
-| 1.5 | Corresponding email is real and correctly spelled | ☐ | ☐ |
+| 1.4 | **Decided: students only.** No instructor or other faculty in the author block, footnotes or acknowledgements | ☐ | ☐ |
+| 1.5 | Contact email (required by the brief) is a student's real university address, correctly spelled; the ∗ marks that author as corresponding | ☐ | ☐ |
 | 1.6 | PDF metadata (Title, Author) matches the paper; no tool names or the other paper's title | ☐ | ☐ |
 | 1.7 | File name follows the course convention (e.g. `23i-2538_23i-2542_…` for CN, `23i-2538_23i-2536_DS-A_…` for AG) | ☐ | ☐ |
 | 1.8 | Title is different between the two papers and states problem, approach and domain | ☐ | ☐ |

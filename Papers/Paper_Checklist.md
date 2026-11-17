@@ -9,8 +9,8 @@ Automated checks: `python Papers/paper_lint.py <CN.pdf> <AG.pdf>` (calibrated on
 
 | | CN – Computer Networks | AG – Agentic Artificial Intelligence |
 |---|---|---|
-| Authors | Muhammad Abdullah Aamir (23i-2538), Haider Farooq Toor (23i-2542) | Muhammad Abdullah Aamir (23i-2538), Muhammad Ibrahim Kiani (23i-2536) |
-| Must **not** name | Ibrahim Kiani, 23i-2536 | Haider Farooq Toor, 23i-2542 |
+| Authors | Muhammad Abdullah Aamir (23i-2538), Haider Farooq Toor (23i-2542), Muhammad Ibrahim Kiani (23i-2536; joined the CN project with instructor permission) | Muhammad Abdullah Aamir (23i-2538), Muhammad Ibrahim Kiani (23i-2536) |
+| Must **not** name | (no exclusions: all three are CN authors) | Haider Farooq Toor, 23i-2542 |
 | Template | IEEE conference (IEEEtran, two-column), like the reference papers | IEEE conference (IEEEtran, two-column) |
 | Length | 6 pages (reference papers); brief allows 6–9 for conferences | 6 pages |
 | Lead question | How traffic-classification errors pass through a correct policy gate | Whether a deterministic gate enforces policy where prompting fails |
@@ -27,7 +27,7 @@ Automated checks: `python Papers/paper_lint.py <CN.pdf> <AG.pdf>` (calibrated on
 | 1.2 | No name, roll number or email from the other team anywhere (title block, acknowledgements, metadata) | ☐ | ☐ |
 | 1.3 | Affiliation line matches the reference papers: "Department of Data Science, FAST-NUCES, Islamabad, Pakistan" | ☐ | ☐ |
 | 1.4 | **Decided: students only.** No instructor or other faculty in the author block, footnotes or acknowledgements | ☐ | ☐ |
-| 1.5 | Contact email (required by the brief) is a student's real university address, correctly spelled; the ∗ marks that author as corresponding | ☐ | ☐ |
+| 1.5 | Each author block carries that student's university email (i232538@isb.nu.edu.pk, i232542@isb.nu.edu.pk, i232536@isb.nu.edu.pk), correctly spelled | ☐ | ☐ |
 | 1.6 | PDF metadata (Title, Author) matches the paper; no tool names or the other paper's title | ☐ | ☐ |
 | 1.7 | File name follows the course convention (e.g. `23i-2538_23i-2542_…` for CN, `23i-2538_23i-2536_DS-A_…` for AG) | ☐ | ☐ |
 | 1.8 | Title is different between the two papers and states problem, approach and domain | ☐ | ☐ |
@@ -183,7 +183,7 @@ Measured from *All Dice, No Slice* and *Take the Hint* (`paper_lint.py` prints t
 | 8.8 | Sentence openings vary (`paper_lint.py` lists openers used 5+ times) | ☐ | ☐ |
 | 8.9 | Tense: present for the method and conclusions, past for what was run and measured | ☐ | ☐ |
 | 8.10 | Technical terms specific to our work used precisely (flow, timeout, kbps, gate, proposal) instead of vague ones (framework, solution, system) | ☐ | ☐ |
-| 8.11 | Both authors read the paper aloud once and rewrite any sentence they would not write themselves | ☐ | ☐ |
+| 8.11 | All authors read the paper aloud once and rewrite any sentence they would not write themselves | ☐ | ☐ |
 | 8.12 | The AI-tool usage declaration required by the brief is present and accurate | ☐ | ☐ |
 
 ## 9. Keeping the two papers distinct
@@ -215,5 +215,5 @@ Measured from *All Dice, No Slice* and *Take the Hint* (`paper_lint.py` prints t
 3. Trace every number against §3 (one person reads numbers, the other checks the JSON).
 4. Open each reference link (§4).
 5. View every page at 100% and 200%; check figures (§7) and layout (§6).
-6. Both authors read the whole paper once, aloud (§8.11).
+6. All authors read the whole paper once, aloud (§8.11).
 7. Re-run step 2 after the last edit; save PDF and LaTeX source together.

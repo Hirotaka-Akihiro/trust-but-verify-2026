@@ -95,3 +95,24 @@ No LLM calls; classifier-only tests for the Computer Networks Phase 3 report.
 - **VPN transfer.** Training on non-VPN flows and testing on VPN flows gives macro-F1 0.458, against 0.806 with mixed training (VPN to non-VPN: 0.564).
 
 Figures: `figures/timeout_robustness.png`, `figures/feature_ablation.png`.
+
+### Uncertainty-aware gating (`src/uncertainty_gate.py`, `results/uncertainty_gate.json`; added 17 Nov 2026)
+
+Replay of the same 100 stored proposals; no new LLM calls. The gate uses the Random Forest's class probabilities instead of only its top label. Strictness: P2P > streaming / file transfer > browsing, email, chat, VoIP.
+
+- **Top-2 rule:** if the top probability is below τ, apply the stricter policy of the two most likely classes.
+- **Policy-mass rule:** if the total probability of the classes at a stricter policy level is at least ρ, apply that level.
+- **Threshold choice:** on the validation split only — the value that minimises flows given a too-permissive policy, subject to an over-blocking budget (flows given a too-strict policy). Budgets fixed in advance: 5% and 10%.
+
+| Gate | Threshold | Violations (of 100) | Permitted done (of 50) | Injections succeeded |
+|---|---|---|---|---|
+| M (top label) | – | 6 | 47 | 0 |
+| Policy-mass, 5% budget | ρ = 0.45 | 6 | 47 | 0 |
+| **Policy-mass, 10% budget** | **ρ = 0.25** | **1** (S070 remains) | **43** | 0 |
+| Top-2, 5% budget | τ = 0.40 | 6 | 46 | 0 |
+| Top-2, 10% budget | τ = 0.65 | 5 | 43 | 0 |
+
+- **Why it can work:** the violating flows are low-confidence predictions (top probability 0.38–0.71) while correct predictions have a median top probability of 0.93; on the test split, flows labelled too permissively have a median top probability of 0.49.
+- **Why the top-2 rule fails:** in 3 of the 6 violations the second most likely class is also permissive (chat or browsing), so the true restricted class is not considered. Aggregating probability by policy level fixes this.
+- **Trade-off:** removing 5 of the 6 residual violations costs 4 legitimate tasks (completion 47 → 43; 89.6% of B0's 48). Under a 5% over-blocking budget neither rule changes the outcome. The remaining violation (S070, P2P predicted as chat with probability 0.71) is a confident error no confidence rule catches.
+- Figure: `figures/uncertainty_gate.png` (dashed = 5% budget, dotted = 10% budget).

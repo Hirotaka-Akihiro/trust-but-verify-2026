@@ -222,7 +222,7 @@ File transfer & Browsing & \textsc{allow} & 0.388 & 0.269 \\
 \end{table}
 
 \subsection{Probability-Aware Gating}
-Under a 5\% over-restriction budget, neither rule changes the outcome on the test scenarios: the policy-mass threshold selected on validation ($\rho = 0.45$) keeps 6 violations and 47 completed tasks. Under a 10\% budget, validation selects $\rho = 0.25$, and violations fall to 1 while completed tasks fall to 43, a retention of 89.6\% (Fig.~\ref{fig:unc}). The top-2 rule performs worse at both budgets because, for three of the six flows, the second most likely class is also permissive. The remaining violation is a P2P flow assigned 0.001 probability of being P2P, a confident error that no probability rule can recover.
+Under a 5\% over-restriction budget, neither rule removes a violation on the test scenarios: the policy-mass threshold selected on validation ($\rho = 0.45$) keeps 6 violations and 47 completed tasks. Under a 10\% budget, validation selects $\rho = 0.25$, and violations fall to 1 while completed tasks fall to 43, a retention of 89.6\% (Fig.~\ref{fig:unc}). The top-2 rule performs worse at both budgets because, for four of the six flows, the second most likely class is also permissive. The remaining violation is a P2P flow assigned 0.001 probability of being P2P, a confident error that no probability rule can recover.
 
 \begin{figure}[t]
 \centering

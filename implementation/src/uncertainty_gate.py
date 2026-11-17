@@ -161,6 +161,17 @@ def main():
     report["confidence"] = {"median_top_prob_correct": float(te2[te2.label == te2.pred].pmax.median()),
                             "median_top_prob_too_permissive": float(too_perm.pmax.median()),
                             "n_too_permissive_test": int(len(too_perm))}
+    # per-flow confidence of the scenarios that violate under M
+    pidx = {f: i for i, f in enumerate(fid_list)}
+    rows = []
+    for _, r in out[out.M_violation].iterrows():
+        p = p50[pidx[r.flow_id]]; order = np.argsort(-p)
+        rows.append({"scenario": r.id, "flow_id": r.flow_id, "true": r.true, "predicted": r.predicted,
+                     "top_prob": round(float(p[order[0]]), 3), "second_class": classes[order[1]],
+                     "second_prob": round(float(p[order[1]]), 3),
+                     "true_class_prob": round(float(p[list(classes).index(r.true)]), 3),
+                     "restricted_mass": round(float(sum(p[i] for i, c_ in enumerate(classes) if RANK[c_] >= 1)), 3)})
+    report["violating_flows"] = rows
     (ROOT / "results" / "uncertainty_gate.json").write_text(json.dumps(report, indent=2, default=float))
 
     fig, axes = plt.subplots(1, 2, figsize=(7.2, 2.9), sharey=True)

@@ -8,6 +8,8 @@
 
 ## 1. Target venue and template
 
+> **Update (17 Nov):** use the **IEEE conference template (IEEEtran, two-column, ~6 pages)** for both papers, matching the authors' earlier papers *All Dice, No Slice* and *Take the Hint*. The ACL choice below is superseded. Full verification list: `Papers/Paper_Checklist.md`.
+
 | Decision | Choice | Why |
 |---|---|---|
 | Venue style | **ACL / EMNLP long paper** (ACL ARR template) | Closest peer work is ACL-family: ToolGuard (EMNLP 2025 Industry). Policy adherence of LLM agents is an NLP/agents topic. |

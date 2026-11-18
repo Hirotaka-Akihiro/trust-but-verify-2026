@@ -36,7 +36,7 @@ i232536@isb.nu.edu.pk}}
 \maketitle
 
 \begin{abstract}
-Language-model agents are being proposed for network operations, where an agent turns an operator request and a traffic label into an action such as allowing, blocking or rate-limiting a flow. When the label comes from an encrypted-traffic classifier, a policy check placed before execution can only be as correct as the prediction it reads. We measure this dependency on ISCXVPN2016. A Random Forest on 23 time-related flow statistics reaches 0.837 macro-F1 over seven applications and 0.855 weighted precision under the dataset's original protocol, against 0.808 for a rebuilt C4.5 baseline. These predictions drive a 3B-parameter local agent whose proposals pass a deterministic gate enforcing three application rules. On 100 identical proposals, the gate lowers executed violations from 30 to 6 (95\% CI of the difference 17.7--30.4 points) and keeps 97.9\% of completed tasks. All six remaining violations are restricted flows predicted as permissive classes; with true labels none remain. A probability-aware gate removes five of them only when 9.5\% of flows may be over-restricted.
+Language-model agents are proposed for network operations, where an agent turns an operator request and a traffic label into an action such as allowing, blocking or rate-limiting a flow. When the label comes from an encrypted-traffic classifier, a policy check placed before execution can only be as correct as the prediction it reads. We measure this dependency on ISCXVPN2016. A Random Forest on 23 time-related flow statistics reaches 0.837 macro-F1 over seven applications and 0.855 weighted precision under the dataset's original protocol, against 0.808 for a rebuilt C4.5 baseline. These predictions drive a 3B-parameter agent whose proposals pass a deterministic gate enforcing three application rules. On 100 identical proposals, the gate lowers executed violations from 30 to 6 (95\% CI of the difference 17.7--30.4 points) and keeps 97.9\% of completed tasks. All six remaining violations are restricted flows predicted as permissive classes; with true labels none remain. A probability-aware gate removes five of them only at a threshold that over-restricts 9.5\% of validation flows.
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -51,7 +51,7 @@ Placing an agent between an operator and the data plane raises a control problem
 
 To investigate this interaction, we build a complete pipeline on ISCXVPN2016 \cite{drapergil2016}: a Random Forest that labels encrypted flows, a local LLM agent that proposes one action per flow, and a deterministic gate that checks each proposal against three application rules before a simulator executes it (Fig.~\ref{fig:arch}). Each of 100 scenarios is answered once by the agent and replayed under every enforcement condition, so differences between conditions isolate the gate. Our primary contributions are:
 \begin{itemize}
-\item \textbf{Base-Protocol Rebuild:} We re-implement the evaluation protocol of the dataset's original study and show that the Random Forest exceeds the rebuilt C4.5 baseline by 4.7 points of weighted precision at every flow timeout.
+\item \textbf{Base-Protocol Rebuild:} We re-implement the evaluation protocol of the dataset's original study and show that the Random Forest exceeds the rebuilt C4.5 baseline by at least 4.7 points of weighted precision at every flow timeout.
 \item \textbf{Paired Gating Evaluation:} We quantify the effect of deterministic pre-execution gating on identical proposals, reducing executed violations from 30 to 6 with a confidence interval that excludes zero.
 \item \textbf{Error Propagation Analysis:} We derive and confirm empirically that, with a correct gate, every remaining violation requires a restricted flow to be predicted as a more permissive class.
 \item \textbf{Probability-Aware Gating:} We evaluate two rules that read class probabilities instead of the top label and report the resulting safety--utility trade-off under over-restriction budgets fixed on validation data.
@@ -193,7 +193,7 @@ Decision tree (depth 10) & 0.728 & 0.803 & 0.742 & $0.745 \pm 0.002$ \\
 \begin{figure}[t]
 \centering
 \includegraphics[width=\columnwidth]{cn_confusion.pdf}
-\caption{Row-normalized confusion matrix of the Random Forest on the test split. VoIP and browsing are nearly always correct; file transfer predicted as chat (0.14) is the largest confusion that crosses policy levels.}
+\caption{Row-normalized confusion matrix of the Random Forest on the test split. VoIP (0.98) and browsing (0.92) are recognized most reliably; file transfer predicted as chat (0.14) is the largest confusion that crosses policy levels.}
 \label{fig:cm}
 \end{figure}
 
@@ -306,7 +306,7 @@ C4.5-style tree (rebuilt) & 0.808 & 0.789 & 0.773 & 0.767 & 0.808 \\
 
 \textit{Classifier and timeout.} Replacing the Random Forest with the decision tree lowers macro-F1 by 0.095. Across the four timeouts the Random Forest stays between 0.811 and 0.861 macro-F1 and leads the decision tree at each, so the choice of a 15-second window does not drive the results.
 
-\textit{Features and VPN transfer.} Fig.~\ref{fig:rob}(a) removes one feature group at a time. Forward and backward inter-arrival times (0.030) and packet and byte rates (0.025) are the only groups whose removal costs more than 0.012 macro-F1. Fig.~\ref{fig:rob}(b) trains on one tunnel type and tests on the other: a model trained on non-VPN flows reaches 0.458 macro-F1 on VPN flows, against 0.806 when VPN flows are included in training.
+\textit{Features and VPN transfer.} Fig.~\ref{fig:rob}(a) removes one feature group at a time. Forward and backward inter-arrival times (0.030) and packet and byte rates (0.025) are the only groups whose removal lowers macro-F1; removing any other group raises it by at most 0.012. Fig.~\ref{fig:rob}(b) trains on one tunnel type and tests on the other: a model trained on non-VPN flows reaches 0.458 macro-F1 on VPN flows, against 0.806 when VPN flows are included in training.
 
 \begin{figure*}[t]
 \centering

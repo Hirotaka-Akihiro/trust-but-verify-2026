@@ -29,7 +29,7 @@ Automated checks: `python Papers/paper_lint.py <CN.pdf> <AG.pdf>` (calibrated on
 | 1.4 | **Decided: students only.** No instructor or other faculty in the author block, footnotes or acknowledgements | ☐ | ☐ |
 | 1.5 | Each author block carries that student's university email (i232538@isb.nu.edu.pk, i232542@isb.nu.edu.pk, i232536@isb.nu.edu.pk), correctly spelled | ☐ | ☐ |
 | 1.6 | PDF metadata (Title, Author) matches the paper; no tool names or the other paper's title | ☐ | ☐ |
-| 1.7 | File name follows the course convention (e.g. `23i-2538_23i-2542_…` for CN, `23i-2538_23i-2536_DS-A_…` for AG) | ☐ | ☐ |
+| 1.7 | File name follows the course convention (e.g. `23i-2538_23i-2542_23i-2536_…` for CN, `23i-2538_23i-2536_DS-A_…` for AG) | ☐ | ☐ |
 | 1.8 | Title is different between the two papers and states problem, approach and domain | ☐ | ☐ |
 
 ## 2. Required sections (Phase 4 brief) and structure

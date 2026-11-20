@@ -36,7 +36,7 @@ i232536@isb.nu.edu.pk}}
 \maketitle
 
 \begin{abstract}
-Language-model agents are proposed for network operations, where an agent turns an operator request and a traffic label into an action such as allowing, blocking or rate-limiting a flow. When the label comes from an encrypted-traffic classifier, a policy check before execution is only as correct as the prediction it reads. We measure this dependency on ISCXVPN2016. A Random Forest on 23 time-related flow statistics reaches 0.837 macro-F1 over seven applications and 0.855 weighted precision under the dataset's original protocol, against 0.808 for a rebuilt C4.5 baseline. These predictions drive a 3B-parameter agent whose proposals pass a deterministic gate enforcing three application rules. On 100 identical proposals, the gate lowers executed violations from 30 to 6 (95\% CI of the difference 17.7--30.4 points) and keeps 97.9\% of completed tasks. All six remaining violations are restricted flows predicted as permissive classes, and none remain with true labels. A probability-aware gate removes five of them only at a threshold that over-restricts 9.5\% of validation flows.
+Language-model agents are proposed for network operations, where an agent turns an operator request and a traffic label into an action such as allowing, blocking or rate-limiting a flow. When the label comes from an encrypted-traffic classifier, a policy check before execution is only as correct as the prediction it reads. This dependency is measured on ISCXVPN2016. A Random Forest on 23 time-related flow statistics reaches 0.837 macro-F1 over seven applications and 0.855 weighted precision under the dataset's original protocol, against 0.808 for a rebuilt C4.5 baseline. These predictions drive a 3B-parameter agent whose proposals pass a deterministic gate enforcing three application rules. On 100 identical proposals, the gate lowers executed violations from 30 to 6 (95\% CI of the difference 17.7--30.4 points) and keeps 97.9\% of completed tasks. All six remaining violations are restricted flows predicted as permissive classes, and none remain with true labels. A probability-aware gate removes five of them only at a threshold that over-restricts 9.5\% of validation flows.
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -49,15 +49,15 @@ Encryption hides packet payloads from the network, which removes payload inspect
 
 Placing an agent between an operator and the data plane raises a control problem that existing work treats only in part. First, a policy written into a prompt is followed only on a best-effort basis, and studies of tool-using agents report frequent breaches when an instruction conflicts with the rules \cite{zwerdling2025,sah2026verifier}. Second, the remedy proposed in those studies, a check executed before each tool call \cite{zwerdling2025,wang2026agentspec}, evaluates the action against facts it is given and assumes those facts are correct. Third, in an encrypted network the decisive fact, the application a flow belongs to, is itself a prediction with a measurable error rate, and classification studies report accuracy without asking which errors change an enforcement decision \cite{drapergil2016,elshewey2025}.
 
-To investigate this interaction, we build a complete pipeline on ISCXVPN2016 \cite{drapergil2016}: a Random Forest that labels encrypted flows, a local LLM agent that proposes one action per flow, and a deterministic gate that checks each proposal against three application rules before a simulator executes it (Fig.~\ref{fig:arch}). Each of 100 scenarios is answered once by the agent and replayed under every enforcement condition, so differences between conditions isolate the gate. Our primary contributions are:
+To investigate this interaction, a complete pipeline is built on ISCXVPN2016 \cite{drapergil2016}: a Random Forest that labels encrypted flows, a local LLM agent that proposes one action per flow, and a deterministic gate that checks each proposal against three application rules before a simulator executes it (Fig.~\ref{fig:arch}). Each of 100 scenarios is answered once by the agent and replayed under every enforcement condition, so differences between conditions isolate the gate. The primary contributions of this paper are:
 \begin{itemize}
-\item \textbf{Base-Protocol Rebuild:} We re-implement the evaluation protocol of the dataset's original study and show that the Random Forest exceeds the rebuilt C4.5 baseline by at least 4.7 points of weighted precision at every flow timeout.
-\item \textbf{Paired Gating Evaluation:} We quantify the effect of deterministic pre-execution gating on identical proposals, reducing executed violations from 30 to 6 with a confidence interval that excludes zero.
-\item \textbf{Error Propagation Analysis:} We derive and confirm empirically that, with a correct gate, every remaining violation requires a restricted flow to be predicted as a more permissive class.
-\item \textbf{Probability-Aware Gating:} We evaluate two rules that read class probabilities instead of the top label and report the resulting safety--utility trade-off under over-restriction budgets fixed on validation data.
+\item \textbf{Base-Protocol Rebuild:} The evaluation protocol of the dataset's original study is re-implemented, and the Random Forest exceeds the rebuilt C4.5 baseline by at least 4.7 points of weighted precision at every flow timeout.
+\item \textbf{Paired Gating Evaluation:} Deterministic pre-execution gating, evaluated on identical proposals, reduces executed violations from 30 to 6 with a confidence interval that excludes zero.
+\item \textbf{Error Propagation Analysis:} A short derivation, confirmed empirically, shows that with a correct gate every remaining violation requires a restricted flow to be predicted as a more permissive class.
+\item \textbf{Probability-Aware Gating:} Two rules that read class probabilities instead of the top label are evaluated, and the resulting safety--utility trade-off is reported under over-restriction budgets fixed on validation data.
 \end{itemize}
 
-The remainder of this paper is organized as follows. Section~II reviews related work. Section~III formalizes the problem and describes the method. Section~IV details the experimental setup, and Section~V reports the results. Section~VI compares our results with the base papers, Section~VII presents ablations, Section~VIII discusses implications and limitations, and Section~IX concludes the paper.
+The remainder of this paper is organized as follows. Section~II reviews related work. Section~III formalizes the problem and describes the method. Section~IV details the experimental setup, and Section~V reports the results. Section~VI compares the results with the base papers, Section~VII presents ablations, Section~VIII discusses implications and limitations, and Section~IX concludes the paper.
 
 \section{Related Work}
 
@@ -65,7 +65,7 @@ The remainder of this paper is organized as follows. Section~II reviews related 
 
 \textit{LLM agents in network operations.} NetConfEval \cite{wang2024netconfeval} measures how reliably LLMs translate requirements into formal specifications and configurations, Confucius \cite{wang2025confucius} deploys multi-agent LLM workflows with validation steps in a production network, and Adanza et al.~\cite{adanza2026} couple an agent with traffic prediction for analysis. None of these systems lets an agent act on individual flows under an explicit enforcement policy.
 
-\textit{Pre-execution policy enforcement.} ToolGuard \cite{zwerdling2025} compiles business policy into code guards that run before each tool call, AgentSpec \cite{wang2026agentspec} expresses runtime rules in a domain-specific language, and GuardAgent \cite{xiang2025guardagent} generates guard code with a second agent. The Verifier Tax \cite{sah2026verifier} shows that LLM-based verifiers intercept most unsafe actions but add model calls. All of these assume that the facts a guard reads are correct. Table~\ref{tab:related} summarizes the studies closest to our setting.
+\textit{Pre-execution policy enforcement.} ToolGuard \cite{zwerdling2025} compiles business policy into code guards that run before each tool call, AgentSpec \cite{wang2026agentspec} expresses runtime rules in a domain-specific language, and GuardAgent \cite{xiang2025guardagent} generates guard code with a second agent. The Verifier Tax \cite{sah2026verifier} shows that LLM-based verifiers intercept most unsafe actions but add model calls. All of these assume that the facts a guard reads are correct. Table~\ref{tab:related} summarizes the studies closest to this setting.
 
 \begin{table}[t]
 \centering
@@ -144,7 +144,7 @@ Fig.~\ref{fig:arch} shows the pipeline. The classifier writes $\hat{y}$ for each
 \end{algorithm}
 
 \subsection{Probability-Aware Gating}
-Because the gate in Algorithm~\ref{alg:gate} trusts $\hat{y}$, we also test two rules that replace $T[f^{\ast}]$ with a more cautious label. Let $r(c)$ be the strictness level of class $c$: 2 for P2P, 1 for $\mathcal{R}_1$ and 0 otherwise. The \emph{top-2 rule} applies the stricter of the two most likely classes when $\max_c p(c \mid \mathbf{x}) < \tau$. The \emph{policy-mass rule} applies the strictest level $\ell$ whose total probability reaches a threshold $\rho$:
+Because the gate in Algorithm~\ref{alg:gate} trusts $\hat{y}$, two further rules are tested that replace $T[f^{\ast}]$ with a more cautious label. Let $r(c)$ be the strictness level of class $c$: 2 for P2P, 1 for $\mathcal{R}_1$ and 0 otherwise. The \emph{top-2 rule} applies the stricter of the two most likely classes when $\max_c p(c \mid \mathbf{x}) < \tau$. The \emph{policy-mass rule} applies the strictest level $\ell$ whose total probability reaches a threshold $\rho$:
 \begin{equation}
 M_\ell(\mathbf{x}) = \sum_{c:\, r(c) \ge \ell} p(c \mid \mathbf{x}),
 \end{equation}
@@ -152,11 +152,11 @@ M_\ell(\mathbf{x}) = \sum_{c:\, r(c) \ge \ell} p(c \mid \mathbf{x}),
 \ell^{\ast} = \max\big\{\ell \ge r(\hat{y}) : \ell = r(\hat{y}) \,\vee\, M_\ell(\mathbf{x}) \ge \rho\big\},
 \label{eq:mass}
 \end{equation}
-and enforces the most probable class at level $\ell^{\ast}$. Because classifier probabilities need not be calibrated \cite{guo2017calibration}, thresholds are chosen on the validation split as the value that minimizes the share of flows given a more permissive policy than their true one, subject to an over-restriction budget $\beta$ on flows given a stricter policy. We report $\beta = 5\%$ and $\beta = 10\%$, both fixed before any test scenario was scored.
+and enforces the most probable class at level $\ell^{\ast}$. Because classifier probabilities need not be calibrated \cite{guo2017calibration}, thresholds are chosen on the validation split as the value that minimizes the share of flows given a more permissive policy than their true one, subject to an over-restriction budget $\beta$ on flows given a stricter policy. Results are reported for $\beta = 5\%$ and $\beta = 10\%$, both fixed before any test scenario was scored.
 
 \section{Experimental Setup}
 
-\textit{Dataset and preprocessing.} We use Scenario~B of ISCXVPN2016 with a 15-second flow timeout: 18,758 flows, each described by 23 statistics covering duration, forward, backward and flow inter-arrival times, active and idle periods, and packet and byte rates. No payload, address or port is used. VPN and non-VPN variants are merged into seven application labels, and the VPN flag is kept for analysis only. We remove 622 rows whose identical feature vectors carry different labels and 152 exact duplicates, leaving 17,984 flows, then draw a stratified sample of 10,000 split into 6,000 training, 2,000 validation and 2,000 test flows. The value $-1$, which marks statistics that do not apply to a flow, is kept as a value. The release carries no capture or session identifiers, so flows from one capture may fall into different splits.
+\textit{Dataset and preprocessing.} The study uses Scenario~B of ISCXVPN2016 with a 15-second flow timeout: 18,758 flows, each described by 23 statistics covering duration, forward, backward and flow inter-arrival times, active and idle periods, and packet and byte rates. No payload, address or port is used. VPN and non-VPN variants are merged into seven application labels, and the VPN flag is kept for analysis only. Removing 622 rows whose identical feature vectors carry different labels and 152 exact duplicates leaves 17,984 flows, from which a stratified sample of 10,000 is split into 6,000 training, 2,000 validation and 2,000 test flows. The value $-1$, which marks statistics that do not apply to a flow, is kept as a value. The release carries no capture or session identifiers, so flows from one capture may fall into different splits.
 
 \textit{Scenario suite.} Fifty test flows (ten each of P2P, streaming and file transfer; five each of the other classes) carry 100 scenarios: 50 permitted requests, 25 policy conflicts in which the operator asks for a forbidden action, and 25 injections in which an untrusted note urges \textsc{allow}, in the manner of indirect prompt injection \cite{greshake2023}. The requested final state of each scenario is fixed before any model query. Ten of the 50 flows are misclassified by the frozen Random Forest.
 
@@ -164,7 +164,7 @@ and enforces the most probable class at level $\ell^{\ast}$. Because classifier 
 
 \textit{Metrics.} Over $N$ scenarios the violation rate is $\bar{V} = \frac{1}{N}\sum_i V(a_i, y_i)$. Completion counts permitted scenarios that end in exactly the requested state, and retention is the completion of a condition divided by that of B0. Uncertainty is estimated with 1,000 paired bootstrap resamples of the 50 base flows \cite{efron1994}, keeping all scenarios of a flow together.
 
-\textit{Base-paper protocol.} To compare with \cite{drapergil2016} on equal terms we rebuild its setting: 14 classes, the uncleaned feature files, stratified 10-fold cross-validation, an entropy-based decision tree with at least two samples per leaf (C4.5-style) and a 1-nearest-neighbour classifier on features scaled to $[0,1]$, for all four timeouts.
+\textit{Base-paper protocol.} For a comparison with \cite{drapergil2016} on equal terms, its setting is rebuilt: 14 classes, the uncleaned feature files, stratified 10-fold cross-validation, an entropy-based decision tree with at least two samples per leaf (C4.5-style) and a 1-nearest-neighbour classifier on features scaled to $[0,1]$, for all four timeouts.
 
 \textit{Implementation.} Experiments run on an Intel Core i5-1235U laptop with 16\,GB RAM, without a GPU, using Python 3.11.9 and scikit-learn 1.8.0.
 
@@ -263,7 +263,7 @@ Zwerdling et al., 2025 \cite{zwerdling2025} & Policy adherence of tool-using age
 \end{tabular}
 \end{table*}
 
-\textit{Quantitative comparison.} Table~\ref{tab:quant} places our classifier against \cite{drapergil2016} under that study's protocol, with reported values marked. The rebuilt C4.5-style tree reaches 0.808 at 15\,s, 2.5 points above the reported 0.783, which indicates a faithful rebuild. The Random Forest reaches 0.855, an absolute gain of 4.7 points (5.9\% relative) over the rebuilt tree and 7.2 points (9.2\% relative) over the reported value, and its macro-F1 is 0.817 against 0.765. It leads at every timeout (Fig.~\ref{fig:base}). Against the reported KNN the gain is 14.4 points (20.3\% relative).
+\textit{Quantitative comparison.} Table~\ref{tab:quant} places the Random Forest against \cite{drapergil2016} under that study's protocol, with reported values marked. The rebuilt C4.5-style tree reaches 0.808 at 15\,s, 2.5 points above the reported 0.783, which indicates a faithful rebuild. The Random Forest reaches 0.855, an absolute gain of 4.7 points (5.9\% relative) over the rebuilt tree and 7.2 points (9.2\% relative) over the reported value, and its macro-F1 is 0.817 against 0.765. It leads at every timeout (Fig.~\ref{fig:base}). Against the reported KNN the gain is 14.4 points (20.3\% relative).
 
 \begin{table}[t]
 \centering
@@ -292,7 +292,7 @@ C4.5-style tree (rebuilt) & 0.808 & 0.789 & 0.773 & 0.767 & 0.808 \\
 \label{fig:base}
 \end{figure}
 
-\textit{Methodological comparison.} The rebuilt single tree uses the same features and folds as the Random Forest, so the gain can be attributed to averaging many decorrelated trees, which reduces variance where the timing distributions of applications overlap \cite{breiman2001}. Elshewey and Osman report higher accuracy, but on a different dataset with 88 features and six classes, so their numbers cannot be compared with ours. ToolGuard generates its guards from policy documents and checks them against database records. Our gate is written by hand and reads a predicted label, which is the error channel analyzed in Section~V-C.
+\textit{Methodological comparison.} The rebuilt single tree uses the same features and folds as the Random Forest, so the gain can be attributed to averaging many decorrelated trees, which reduces variance where the timing distributions of applications overlap \cite{breiman2001}. Elshewey and Osman report higher accuracy, but on a different dataset with 88 features and six classes, so their numbers cannot be compared with those reported here. ToolGuard generates its guards from policy documents and checks them against database records. The gate in this work is written by hand and reads a predicted label, which is the error channel analyzed in Section~V-C.
 
 \begin{figure*}[t]
 \centering
@@ -301,7 +301,7 @@ C4.5-style tree (rebuilt) & 0.808 & 0.789 & 0.773 & 0.767 & 0.808 \\
 \label{fig:rob}
 \end{figure*}
 
-\textit{Fairness and limitations.} The base study does not state its precision averaging or KNN settings, so we use weighted averaging and Weka's default single neighbour. That cross-validation, like ours in this protocol, may place flows from one capture in different folds. ToolGuard's pass$^k$ measures task success on a different benchmark, and Table~\ref{tab:base} lists it for context only.
+\textit{Fairness and limitations.} The base study does not state its precision averaging or KNN settings, so weighted averaging and Weka's default single neighbour are used. That cross-validation, like its rebuild here, may place flows from one capture in different folds. ToolGuard's pass$^k$ measures task success on a different benchmark, and Table~\ref{tab:base} lists it for context only.
 
 \section{Ablation Study}
 
@@ -329,7 +329,7 @@ A deterministic gate placed between an LLM agent and an encrypted network reduce
 
 \section*{Declarations}
 
-\textit{Data and code availability.} ISCXVPN2016 is available from the Canadian Institute for Cybersecurity. Code, the processed data split, scenarios, raw agent replies and all result files are available from the authors on request.
+\textit{Data and code availability.} ISCXVPN2016 is available from the Canadian Institute for Cybersecurity. Code, the processed data split, scenarios, raw agent replies and all result files are available at \url{https://github.com/Hirotaka-Akihiro/trust-but-verify-2026}.
 
 \textit{Conflict of interest.} The authors declare no conflict of interest.
 

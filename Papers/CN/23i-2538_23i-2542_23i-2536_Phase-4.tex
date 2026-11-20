@@ -171,7 +171,7 @@ and enforces the most probable class at level $\ell^{\ast}$. Because classifier 
 \section{Results and Analysis}
 
 \subsection{Traffic Classification}
-Table~\ref{tab:clf} lists the classifiers. The Random Forest leads the decision tree by 0.095 macro-F1 on the test split, and five training seeds move its macro-F1 by no more than $\pm0.002$. Per-class F1 ranges from 0.989 for VoIP to 0.718 for chat. Accuracy is 91.4\% on non-VPN flows and 84.2\% on VPN flows. Fig.~\ref{fig:cm} shows where errors concentrate: 13.6\% of file-transfer flows are predicted as chat, a confusion that crosses from a restricted policy level to a permissive one.
+Table~\ref{tab:clf} lists the classifiers. The Random Forest leads the decision tree by 0.095 macro-F1 on the test split. Retrained with five other seeds, it scores between 0.843 and 0.848, so the frozen model's 0.837 does not overstate its performance. Per-class F1 ranges from 0.989 for VoIP to 0.718 for chat. Accuracy is 91.4\% on non-VPN flows and 84.2\% on VPN flows. Fig.~\ref{fig:cm} shows where errors concentrate: 13.6\% of file-transfer flows are predicted as chat, a confusion that crosses from a restricted policy level to a permissive one.
 
 \begin{table}[t]
 \centering
@@ -181,7 +181,7 @@ Table~\ref{tab:clf} lists the classifiers. The Random Forest leads the decision 
 \setlength{\tabcolsep}{3.5pt}
 \begin{tabular}{@{}lcccc@{}}
 \toprule
-Model & Val.\ F1 & Test Acc. & Test F1 & F1, 5 seeds \\
+Model & Val.\ F1 & Test Acc. & Test F1 & F1, seeds 0--4 \\
 \midrule
 Majority class & 0.063 & 0.282 & 0.063 & -- \\
 Decision tree (depth 10) & 0.728 & 0.803 & 0.742 & $0.745 \pm 0.002$ \\
@@ -198,7 +198,7 @@ Decision tree (depth 10) & 0.728 & 0.803 & 0.742 & $0.745 \pm 0.002$ \\
 \end{figure}
 
 \subsection{Gated Enforcement}
-Fig.~\ref{fig:cond} reports the four enforcement conditions on the same proposals. Without the gate, 30 of 100 scenarios end in a violation. The agent executed every one of the 25 forbidden operator requests, followed 3 of 25 injected notes and wrote 8,000,000\,kbps for an 8\,Mbps request. Structural checks remove only the two unit errors and one malformed call. The policy gate lowers violations to 6, a paired reduction of 24 points (95\% CI 17.7--30.4), while 47 of 50 permitted tasks still complete against 48 without the gate, a retention of 97.9\% (CI 93.5--100). A gate decision takes a median 3.6\,$\mu$s, against 2.96\,s for an agent call.
+Fig.~\ref{fig:cond} reports the four enforcement conditions on the same proposals. Without the gate, 30 of 100 scenarios end in a violation. The agent executed every one of the 25 forbidden operator requests, followed 3 of 25 injected notes and wrote 8,000,000\,kbps for an 8\,Mbps request. Structural checks remove only the two unit errors and one call with an extra argument. The policy gate lowers violations to 6, a paired reduction of 24 points (95\% CI 17.7--30.4), while 47 of 50 permitted tasks still complete against 48 without the gate, a retention of 97.9\% (CI 93.5--100). A gate decision takes a median 3.6\,$\mu$s, against 2.96\,s for an agent call.
 
 \begin{figure}[t]
 \centering

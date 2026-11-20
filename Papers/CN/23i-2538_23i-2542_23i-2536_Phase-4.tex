@@ -104,7 +104,7 @@ A flow $f$ is described by a feature vector $\mathbf{x} \in \mathbb{R}^{23}$ and
 with $L(u) = \{\textsc{limit}(k): k \in \mathbb{Z},\ 64 \le k \le u\}$,
 where $\mathcal{R}_1$ contains streaming and file transfer. A gate $G$ executes $a$ only if it passes structural checks and $a \in \Pi(\hat{y})$. An executed action is a violation when it is not permitted for the true class:
 \begin{equation}
-V(a, y) = \mathbb{1}\left[a \text{ executed} \wedge a \notin \Pi(y)\right].
+V(a, y) = \mathbf{1}\left[a \text{ executed} \wedge a \notin \Pi(y)\right].
 \label{eq:violation}
 \end{equation}
 Because the gate executes only actions in $\Pi(\hat{y})$, a violation under a correct gate requires $a \in \Pi(\hat{y}) \setminus \Pi(y)$, which is non-empty only when $\hat{y} \neq y$ and $\Pi(\hat{y}) \not\subseteq \Pi(y)$. Under (\ref{eq:policy}) this happens exactly when a restricted flow is predicted as a class of a less restrictive level. Every residual violation is therefore attributable to a specific direction of misclassification, which Section~V tests.

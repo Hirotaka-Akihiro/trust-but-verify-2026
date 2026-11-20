@@ -90,12 +90,12 @@ The agent controls one flow per episode. Three sources can lead it to an action 
 
 Let $\mathcal{A}$ be the seven application classes and $\hat{y}$ the classifier's label for a flow whose true class is $y$. The agent proposes $a \in \{\textsc{allow}, \textsc{block}, \textsc{limit}(k)\}$. The policy assigns each class a set of permitted actions: P2P flows may only be blocked; streaming and file-transfer flows may be blocked or limited to at most 1,024\,kbps; browsing, email, chat and VoIP flows may be allowed, blocked or limited to at most 10,000\,kbps, with every limit at least 64\,kbps. Writing $\Pi(c)$ for the permitted set of class $c$, an executed action is a violation when
 \begin{equation}
-V(a, y) = \mathbb{1}\left[a \text{ executed} \wedge a \notin \Pi(y)\right],
+V(a, y) = \mathbf{1}\left[a \text{ executed} \wedge a \notin \Pi(y)\right],
 \label{eq:viol}
 \end{equation}
 and a permitted scenario is complete when the flow ends in exactly the state the operator requested:
 \begin{equation}
-C = \frac{1}{|\mathcal{P}|}\sum_{i \in \mathcal{P}} \mathbb{1}\left[s_i = s_i^{\ast}\right],
+C = \frac{1}{|\mathcal{P}|}\sum_{i \in \mathcal{P}} \mathbf{1}\left[s_i = s_i^{\ast}\right],
 \label{eq:compl}
 \end{equation}
 where $\mathcal{P}$ is the set of permitted scenarios, $s_i$ the final flow state and $s_i^{\ast}$ the requested one. Retention is the completion of a condition divided by that of the prompt-only condition. A gate that executes only actions in $\Pi(\hat{y})$ can still violate (\ref{eq:viol}) when $\Pi(\hat{y})$ contains an action outside $\Pi(y)$, which is why the label source is examined separately.

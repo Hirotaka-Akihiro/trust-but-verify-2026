@@ -48,7 +48,7 @@ Automated checks: `python Papers/paper_lint.py <CN.pdf> <AG.pdf>` (calibrated on
 | 2.10 | Ablation study: what each component contributes | ☐ | ☐ |
 | 2.11 | Discussion: why it works, implications, strengths, limitations, failure cases, threats to validity, whether the gap/objectives were met | ☐ | ☐ |
 | 2.12 | Conclusion and future work: no new information | ☐ | ☐ |
-| 2.13 | Declarations: data and code availability, conflict of interest, funding, **AI-tool usage declaration (required by the brief)** | ☐ | ☐ |
+| 2.13 | Declarations: data and code availability, conflict of interest, funding, **AI-tool usage declaration (required by the CN brief)**. AG: no Declarations section and no mention of AI use (the AG brief does not ask for one) | ☐ | n/a |
 | 2.14 | References in IEEE style; optional appendix | ☐ | ☐ |
 | 2.15 | Page count within limit; no section cut short to fit | ☐ | ☐ |
 | 2.16 | Editable source (LaTeX) kept alongside the PDF | ☐ | ☐ |
@@ -184,7 +184,7 @@ Measured from *All Dice, No Slice* and *Take the Hint* (`paper_lint.py` prints t
 | 8.9 | Tense: present for the method and conclusions, past for what was run and measured | ☐ | ☐ |
 | 8.10 | Technical terms specific to our work used precisely (flow, timeout, kbps, gate, proposal) instead of vague ones (framework, solution, system) | ☐ | ☐ |
 | 8.11 | All authors read the paper aloud once and rewrite any sentence they would not write themselves | ☐ | ☐ |
-| 8.12 | The AI-tool usage declaration required by the brief is present and accurate | ☐ | ☐ |
+| 8.12 | The AI-tool usage declaration required by the CN brief is present and accurate. AG: no AI-use mention anywhere | ☐ | n/a |
 
 ## 9. Keeping the two papers distinct
 

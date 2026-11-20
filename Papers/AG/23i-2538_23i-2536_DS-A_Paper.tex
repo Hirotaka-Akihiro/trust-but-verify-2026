@@ -270,16 +270,7 @@ Two results limit what the gate can promise. Feedback-driven retry makes the age
 
 A 3B-parameter agent given a network policy in its prompt executed every conflicting operator request and three of twenty-five injected instructions. A deterministic gate placed before execution reduced violations from 30 to 6, removed all successful injections and retained 97.9\% of completed tasks, at microsecond cost and with no additional model calls. One retry with the gate's reason recovered four tasks but introduced a violation, and the six violations that the gate let through all rested on mislabelled flows. Future work will test larger models and multi-step episodes, extend the policy with time-of-day windows and per-period counters, and combine the gate with label uncertainty in a way that does not depend on a fixed over-restriction budget.
 
-\section*{Declarations}
-
-\textit{Data and code availability.} ISCXVPN2016 is distributed by the Canadian Institute for Cybersecurity. The scenarios, raw model replies, gate implementation and evaluation scripts can be obtained from the authors by email.
-
-\textit{Conflict of interest.} The authors have no competing interests to declare.
-
-\textit{Funding.} No external funding was received for this work.
-
-\textit{AI-tool usage.} The authors used an AI assistant (Claude, Anthropic) to help write the experiment code and to draft and edit the manuscript. All results were checked against the stored experiment outputs, and the authors take responsibility for the content.
-
+\IEEEtriggeratref{12}
 \bibliographystyle{IEEEtran}
 \bibliography{../refs}
 

@@ -64,7 +64,7 @@ def architecture(name, focus):
                     style="italic")
 
     group(0.5, 16.8, 47.5, 14.0, "Traffic classification")
-    group(0.5, 0.3, 72.5, 15.4, "Decision and enforcement")
+    group(0.5, 0.3, 71.8, 15.4, "Decision and enforcement")
     box(11.0, 23.0, 19, 7.5, "ISCXVPN2016 flow", "23 timing statistics\nno payload, IP or port")
     box(35.5, 23.0, 19, 7.5, "Random Forest", "7 application classes\nprobabilities p(c | f)",
         hi=focus == "classifier")
@@ -76,12 +76,13 @@ def architecture(name, focus):
     box(88.5, 8.2, 19, 7.5, "Simulator", "flow state: held / allowed /\nblocked / rate-limited")
     arrow((20.5, 23.0), (26.0, 23.0)); arrow((45.0, 23.0), (52.0, 23.0))
     arrow((19.5, 8.2), (25.0, 8.2)); arrow((43.0, 8.2), (49.5, 8.2), "proposal", (46.25, 10.0))
-    arrow((71.5, 8.2), (79.0, 8.2), "execute", (75.25, 10.0))
-    arrow((65.0, 19.25), (65.0, 11.95), "ŷ", (66.3, 15.6))
-    arrow((58.0, 19.25), (38.0, 11.95), "ŷ", (49.0, 16.2))
-    # retry: gate bottom -> down -> left -> up into the agent
-    ax.plot([58.0, 58.0, 36.0], [4.45, 2.4, 2.4], color=ORANGE, lw=0.8, ls=(0, (3, 2)))
-    arrow((36.0, 2.4), (36.0, 4.45), dashed=True, color=ORANGE)
+    # labels sit in white space, clear of the dashed group borders
+    arrow((71.5, 8.2), (79.0, 8.2), "execute", (75.9, 10.0))
+    arrow((65.0, 19.25), (65.0, 11.95), "ŷ", (66.3, 18.0))
+    arrow((56.0, 19.25), (42.9, 11.9), "ŷ", (51.2, 18.0))  # ends at the agent's top-right corner
+    # retry: gate bottom -> down -> left -> up into the agent; dashed path, solid head
+    ax.plot([58.0, 58.0, 36.0, 36.0], [4.45, 2.4, 2.4, 3.4], color=ORANGE, lw=0.8, ls=(0, (3, 2)))
+    arrow((36.0, 3.2), (36.0, 4.45), color=ORANGE)
     ax.text(47.0, 1.25, "rejection reason (one retry)", fontsize=5.6, color=ORANGE, ha="center", va="center",
             style="italic")
     save(fig, name)

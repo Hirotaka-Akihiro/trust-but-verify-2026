@@ -224,5 +224,5 @@ Run `python Papers/ai_signs_scan.py <paper.tex>` and review every hit against `P
 
 | # | Check | CN | AG |
 |---|---|---|---|
-| 12.1 | Marker vocabulary, negative parallelisms, trailing -ing clauses, set-up colons reviewed | ☑ | ☐ |
-| 12.2 | Page size and heading order match the reference papers and the Phase 4 brief (A4, IEEE) | ☑ | ☐ |
+| 12.1 | Marker vocabulary, negative parallelisms, trailing -ing clauses, set-up colons reviewed | ☑ | ☑ |
+| 12.2 | Page size and heading order match the reference papers and the Phase 4 brief (A4, IEEE) | ☑ | ☑ |

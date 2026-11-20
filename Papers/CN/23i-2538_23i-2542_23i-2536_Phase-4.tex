@@ -119,11 +119,13 @@ Fig.~\ref{fig:arch} shows the pipeline. The classifier writes $\hat{y}$ for each
 \label{fig:arch}
 \end{figure*}
 
-\textit{Traffic classifier.} A Random Forest \cite{breiman2001} with 100 trees, maximum depth 16, at least two samples per leaf and balanced class weights is compared with a depth-10 decision tree and a majority-class predictor, using scikit-learn \cite{pedregosa2011} with seed 42. The model with the higher validation macro-F1 is frozen before testing.
+\textit{Traffic classifier.} A Random Forest \cite{breiman2001} of 100 trees grown on Gini impurity, with maximum depth 16, at least two samples per leaf and balanced class weights is compared with a depth-10 decision tree and a majority-class predictor, using scikit-learn \cite{pedregosa2011} with seed 42. The model with the higher validation macro-F1 is frozen before testing.
 
 \textit{Agent.} Llama-3.2-3B-Instruct \cite{grattafiori2024llama3}, quantized to 4 bits (Q4\_K\_M), runs on a laptop CPU through llama.cpp \cite{llamacpp} with temperature 0, seed 42, a 2,048-token context and at most 128 output tokens.
 
 \textit{Deterministic gate.} Algorithm~\ref{alg:gate} gives the gate. The four checks run in order, and any failure leaves the flow held.
+
+\textit{Changes from the initial design.} Several parts of the originally proposed design changed during implementation. The released feature files contain no packet-size fields and no capture, session, address or port identifiers, so only the 23 time-related features are used, and duplicate and conflicting rows are removed before a stratified split instead of separating captures. Median imputation was dropped because the value $-1$ marks a statistic that does not apply to a flow. The retry condition, the true-label condition, the probability-aware rules and the rebuild of the base-paper protocol were added to separate classifier errors from agent errors and to allow a direct comparison with \cite{drapergil2016}.
 
 \begin{algorithm}[t]
 \caption{Deterministic gate}

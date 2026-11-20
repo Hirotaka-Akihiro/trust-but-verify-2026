@@ -1,4 +1,4 @@
-\documentclass[conference]{IEEEtran}
+\documentclass[conference,a4paper]{IEEEtran}
 \usepackage{cite}
 \usepackage{amsmath,amssymb}
 \usepackage{graphicx}
@@ -36,7 +36,7 @@ i232536@isb.nu.edu.pk}}
 \maketitle
 
 \begin{abstract}
-Language-model agents are proposed for network operations, where an agent turns an operator request and a traffic label into an action such as allowing, blocking or rate-limiting a flow. When the label comes from an encrypted-traffic classifier, a policy check placed before execution can only be as correct as the prediction it reads. We measure this dependency on ISCXVPN2016. A Random Forest on 23 time-related flow statistics reaches 0.837 macro-F1 over seven applications and 0.855 weighted precision under the dataset's original protocol, against 0.808 for a rebuilt C4.5 baseline. These predictions drive a 3B-parameter agent whose proposals pass a deterministic gate enforcing three application rules. On 100 identical proposals, the gate lowers executed violations from 30 to 6 (95\% CI of the difference 17.7--30.4 points) and keeps 97.9\% of completed tasks. All six remaining violations are restricted flows predicted as permissive classes; with true labels none remain. A probability-aware gate removes five of them only at a threshold that over-restricts 9.5\% of validation flows.
+Language-model agents are proposed for network operations, where an agent turns an operator request and a traffic label into an action such as allowing, blocking or rate-limiting a flow. When the label comes from an encrypted-traffic classifier, a policy check before execution is only as correct as the prediction it reads. We measure this dependency on ISCXVPN2016. A Random Forest on 23 time-related flow statistics reaches 0.837 macro-F1 over seven applications and 0.855 weighted precision under the dataset's original protocol, against 0.808 for a rebuilt C4.5 baseline. These predictions drive a 3B-parameter agent whose proposals pass a deterministic gate enforcing three application rules. On 100 identical proposals, the gate lowers executed violations from 30 to 6 (95\% CI of the difference 17.7--30.4 points) and keeps 97.9\% of completed tasks. All six remaining violations are restricted flows predicted as permissive classes, and none remain with true labels. A probability-aware gate removes five of them only at a threshold that over-restricts 9.5\% of validation flows.
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -45,9 +45,9 @@ Encrypted Traffic Classification, Network Policy Enforcement, Language-Model Age
 
 \section{Introduction}
 
-Most traffic on enterprise and campus networks is now encrypted, which removes payload inspection as a basis for application-aware policy. Classifiers trained on flow-level timing and volume statistics have therefore become the standard substitute, ranging from decision trees on time-related features \cite{drapergil2016} to deep models on packet sequences \cite{rezaei2019,lotfollahi2020,elshewey2025}. At the same time, large language models (LLMs) are being placed inside network operations: as translators from operator intent to configuration \cite{wang2024netconfeval}, as multi-agent assistants for production network management \cite{wang2025confucius}, and as analysts that query traffic predictors \cite{adanza2026}. Combining the two gives an agent that reads a classifier's label for a flow and decides what to do with it.
+Encryption hides packet payloads from the network, which removes payload inspection as a basis for application-aware policy. Classifiers trained on flow-level timing and volume statistics are used in its place, ranging from decision trees on time-related features \cite{drapergil2016} to deep models on packet sequences \cite{rezaei2019,lotfollahi2020,elshewey2025}. At the same time, large language models (LLMs) are being placed inside network operations: as translators from operator intent to configuration \cite{wang2024netconfeval}, as multi-agent assistants for production network management \cite{wang2025confucius}, and as analysts that query traffic predictors \cite{adanza2026}. Combining the two gives an agent that reads a classifier's label for a flow and decides what to do with it.
 
-Placing an agent between an operator and the data plane raises a control problem that existing work treats only in part. First, written policy supplied in a prompt is followed on a best-effort basis; prior studies of tool-using agents report frequent policy breaches when an instruction conflicts with the rules \cite{zwerdling2025,sah2026verifier}. Second, the remedy proposed in those studies, a check executed before each tool call \cite{zwerdling2025,wang2026agentspec}, evaluates the action against facts it is given and assumes those facts are correct. Third, in an encrypted network the decisive fact, the application a flow belongs to, is itself a prediction with a measurable error rate, and classification studies report accuracy without asking which errors change an enforcement decision \cite{drapergil2016,elshewey2025}.
+Placing an agent between an operator and the data plane raises a control problem that existing work treats only in part. First, a policy written into a prompt is followed only on a best-effort basis, and studies of tool-using agents report frequent breaches when an instruction conflicts with the rules \cite{zwerdling2025,sah2026verifier}. Second, the remedy proposed in those studies, a check executed before each tool call \cite{zwerdling2025,wang2026agentspec}, evaluates the action against facts it is given and assumes those facts are correct. Third, in an encrypted network the decisive fact, the application a flow belongs to, is itself a prediction with a measurable error rate, and classification studies report accuracy without asking which errors change an enforcement decision \cite{drapergil2016,elshewey2025}.
 
 To investigate this interaction, we build a complete pipeline on ISCXVPN2016 \cite{drapergil2016}: a Random Forest that labels encrypted flows, a local LLM agent that proposes one action per flow, and a deterministic gate that checks each proposal against three application rules before a simulator executes it (Fig.~\ref{fig:arch}). Each of 100 scenarios is answered once by the agent and replayed under every enforcement condition, so differences between conditions isolate the gate. Our primary contributions are:
 \begin{itemize}
@@ -61,7 +61,7 @@ The remainder of this paper is organized as follows. Section~II reviews related 
 
 \section{Related Work}
 
-\textit{Encrypted traffic classification.} Draper-Gil et al.~\cite{drapergil2016} released ISCXVPN2016 together with 23 time-related flow features and reported that C4.5 and KNN separate seven applications with and without VPN tunnelling. Later work moved to deep models on raw packets \cite{lotfollahi2020} and to stacked ensembles on HTTPS flows \cite{elshewey2025}; Rezaei and Liu \cite{rezaei2019} survey this shift. These studies optimize accuracy or F1 over all classes, whereas a policy assigns very different consequences to different confusions.
+\textit{Encrypted traffic classification.} Draper-Gil et al.~\cite{drapergil2016} released ISCXVPN2016 together with 23 time-related flow features and reported that C4.5 and KNN separate seven applications with and without VPN tunnelling. Later work moved to deep models on raw packets \cite{lotfollahi2020} and to stacked ensembles on HTTPS flows \cite{elshewey2025}, a shift surveyed by Rezaei and Liu \cite{rezaei2019}. These studies optimize accuracy or F1 over all classes, whereas a policy assigns very different consequences to different confusions.
 
 \textit{LLM agents in network operations.} NetConfEval \cite{wang2024netconfeval} measures how reliably LLMs translate requirements into formal specifications and configurations, Confucius \cite{wang2025confucius} deploys multi-agent LLM workflows with validation steps in a production network, and Adanza et al.~\cite{adanza2026} couple an agent with traffic prediction for analysis. None of these systems lets an agent act on individual flows under an explicit enforcement policy.
 
@@ -110,7 +110,7 @@ V(a, y) = \mathbb{1}\left[a \text{ executed} \wedge a \notin \Pi(y)\right].
 Because the gate executes only actions in $\Pi(\hat{y})$, a violation under a correct gate requires $a \in \Pi(\hat{y}) \setminus \Pi(y)$, which is non-empty only when $\hat{y} \neq y$ and $\Pi(\hat{y}) \not\subseteq \Pi(y)$. Under (\ref{eq:policy}) this happens exactly when a restricted flow is predicted as a class of a less restrictive level. Every residual violation is therefore attributable to a specific direction of misclassification, which Section~V tests.
 
 \subsection{Architecture and Components}
-Fig.~\ref{fig:arch} shows the pipeline. The classifier writes $\hat{y}$ for each flow into a trusted record that the agent can read but not modify. The agent receives the flow identifier, $\hat{y}$, the operator request and the written policy, and returns one JSON tool call; no generated code is executed. The gate reads $\hat{y}$ directly from the trusted record, and a dictionary simulator stores each flow as held, allowed, blocked or rate-limited, with every flow starting held.
+Fig.~\ref{fig:arch} shows the pipeline. The classifier writes $\hat{y}$ for each flow into a trusted record that the agent can read but not modify. The agent receives the flow identifier, $\hat{y}$, the operator request and the written policy, and returns one JSON tool call. No generated code is executed. The gate reads $\hat{y}$ directly from the trusted record, and a dictionary simulator stores each flow as held, allowed, blocked or rate-limited, with every flow starting held.
 
 \begin{figure*}[t]
 \centering
@@ -198,7 +198,7 @@ Decision tree (depth 10) & 0.728 & 0.803 & 0.742 & $0.745 \pm 0.002$ \\
 \end{figure}
 
 \subsection{Gated Enforcement}
-Fig.~\ref{fig:cond} reports the four enforcement conditions on the same proposals. Without the gate, 30 of 100 scenarios end in a violation; the agent executed every one of the 25 forbidden operator requests, followed 3 of 25 injected notes and wrote 8,000,000\,kbps for an 8\,Mbps request. Structural checks remove only the two unit errors and one malformed call. The policy gate lowers violations to 6, a paired reduction of 24 points (95\% CI 17.7--30.4), while 47 of 50 permitted tasks still complete against 48 without the gate, a retention of 97.9\% (CI 93.5--100). A gate decision takes a median 3.6\,$\mu$s, against 2.96\,s for an agent call.
+Fig.~\ref{fig:cond} reports the four enforcement conditions on the same proposals. Without the gate, 30 of 100 scenarios end in a violation. The agent executed every one of the 25 forbidden operator requests, followed 3 of 25 injected notes and wrote 8,000,000\,kbps for an 8\,Mbps request. Structural checks remove only the two unit errors and one malformed call. The policy gate lowers violations to 6, a paired reduction of 24 points (95\% CI 17.7--30.4), while 47 of 50 permitted tasks still complete against 48 without the gate, a retention of 97.9\% (CI 93.5--100). A gate decision takes a median 3.6\,$\mu$s, against 2.96\,s for an agent call.
 
 \begin{figure}[t]
 \centering
@@ -232,7 +232,7 @@ File transfer & Browsing & \textsc{allow} & 0.388 & 0.269 \\
 \end{table}
 
 \subsection{Probability-Aware Gating}
-Under a 5\% over-restriction budget, neither rule removes a violation on the test scenarios: the policy-mass threshold selected on validation ($\rho = 0.45$) keeps 6 violations and 47 completed tasks. Under a 10\% budget, validation selects $\rho = 0.25$, and violations fall to 1 while completed tasks fall to 43, a retention of 89.6\% (Fig.~\ref{fig:unc}). The top-2 rule performs worse at both budgets because, for four of the six flows, the second most likely class is also permissive. The remaining violation is a P2P flow assigned 0.001 probability of being P2P, a confident error that no probability rule can recover.
+Under a 5\% over-restriction budget, neither rule removes a violation on the test scenarios: the policy-mass threshold selected on validation ($\rho = 0.45$) keeps 6 violations and 47 completed tasks. Under a 10\% budget, validation selects $\rho = 0.25$, and violations fall to 1 while completed tasks fall to 43, a retention of 89.6\% (Fig.~\ref{fig:unc}). The top-2 rule performs worse at both budgets because, for four of the six flows, the second most likely class is also permissive. The remaining violation is a P2P flow that the classifier gives 0.001 probability of being P2P, so only a threshold low enough to restrict almost every flow would catch it.
 
 \begin{figure}[t]
 \centering
@@ -241,7 +241,7 @@ Under a 5\% over-restriction budget, neither rule removes a violation on the tes
 \label{fig:unc}
 \end{figure}
 
-\section{Comparison with Base Papers}
+\section{Comparison with Base Papers and State of the Art}
 
 Table~\ref{tab:base} summarizes the three studies this work builds on. Draper-Gil et al.~\cite{drapergil2016} define the dataset and features, Elshewey and Osman \cite{elshewey2025} represent current deep classifiers of encrypted traffic, and ToolGuard \cite{zwerdling2025} is the closest form of pre-execution enforcement.
 
@@ -292,21 +292,7 @@ C4.5-style tree (rebuilt) & 0.808 & 0.789 & 0.773 & 0.767 & 0.808 \\
 \label{fig:base}
 \end{figure}
 
-\textit{Methodological comparison.} The classification gain comes from averaging many decorrelated trees, which stabilizes predictions where timing distributions of applications overlap; the rebuilt single tree uses the same features and folds. Elshewey and Osman report higher accuracy, but on a different dataset with 88 features and six classes, so their numbers cannot be compared with ours. Relative to ToolGuard, our gate is written by hand rather than generated, and the network setting replaces a database record with a probabilistic label, which exposes the error channel analyzed in Section~V-C.
-
-\textit{Fairness and limitations.} The base study does not state its precision averaging or KNN settings; we use weighted averaging and Weka's default single neighbour. That cross-validation, like ours in this protocol, may place flows from one capture in different folds. ToolGuard's pass$^k$ measures task success on a different benchmark and is listed for context, not as a competing number.
-
-\section{Ablation Study}
-
-\textit{Enforcement layers.} Moving from B0 to B1 removes 3 of 30 violations; adding the policy check removes 21 more. Most of the gate's value therefore comes from the policy rules, while structural checks catch a different class of error: a correct intent expressed with a wrong number.
-
-\textit{Label source.} Replacing $\hat{y}$ with $y$ (M-oracle) removes all six residual violations and the single wrongful refusal, confirming the analysis in Section~III-A.
-
-\textit{Retry.} Returning the rejection reason recovers 4 of 25 rejected scenarios but introduces one new violation: a P2P flow predicted as file transfer is rate-limited at 512\,kbps, a rate permitted for the predicted class only.
-
-\textit{Classifier and timeout.} Replacing the Random Forest with the decision tree lowers macro-F1 by 0.095. Across the four timeouts the Random Forest stays between 0.811 and 0.861 macro-F1 and leads the decision tree at each, so the choice of a 15-second window does not drive the results.
-
-\textit{Features and VPN transfer.} Fig.~\ref{fig:rob}(a) removes one feature group at a time. Forward and backward inter-arrival times (0.030) and packet and byte rates (0.025) are the only groups whose removal lowers macro-F1; removing any other group raises it by at most 0.012. Fig.~\ref{fig:rob}(b) trains on one tunnel type and tests on the other: a model trained on non-VPN flows reaches 0.458 macro-F1 on VPN flows, against 0.806 when VPN flows are included in training.
+\textit{Methodological comparison.} The rebuilt single tree uses the same features and folds as the Random Forest, so the gain can be attributed to averaging many decorrelated trees, which reduces variance where the timing distributions of applications overlap \cite{breiman2001}. Elshewey and Osman report higher accuracy, but on a different dataset with 88 features and six classes, so their numbers cannot be compared with ours. ToolGuard generates its guards from policy documents and checks them against database records. Our gate is written by hand and reads a predicted label, which is the error channel analyzed in Section~V-C.
 
 \begin{figure*}[t]
 \centering
@@ -315,17 +301,31 @@ C4.5-style tree (rebuilt) & 0.808 & 0.789 & 0.773 & 0.767 & 0.808 \\
 \label{fig:rob}
 \end{figure*}
 
+\textit{Fairness and limitations.} The base study does not state its precision averaging or KNN settings, so we use weighted averaging and Weka's default single neighbour. That cross-validation, like ours in this protocol, may place flows from one capture in different folds. ToolGuard's pass$^k$ measures task success on a different benchmark, and Table~\ref{tab:base} lists it for context only.
+
+\section{Ablation Study}
+
+\textit{Enforcement layers.} Moving from B0 to B1 removes 3 of 30 violations, and adding the policy check removes 21 more. The three calls stopped by structural checks, two unit errors and one call with an extra argument, would also have failed the policy check, so the policy rules account for nearly all of the reduction.
+
+\textit{Label source.} Replacing $\hat{y}$ with $y$ (M-oracle) removes all six residual violations and the single wrongful refusal, as the analysis in Section~III-A predicts.
+
+\textit{Retry.} Returning the rejection reason recovers 4 of 25 rejected scenarios but introduces one new violation: a P2P flow predicted as file transfer is rate-limited at 512\,kbps, a rate permitted for the predicted class only.
+
+\textit{Classifier and timeout.} Replacing the Random Forest with the decision tree lowers macro-F1 by 0.095. Across the four timeouts the Random Forest stays between 0.811 and 0.861 macro-F1 and leads the decision tree at each, so the choice of a 15-second window does not drive the results.
+
+\textit{Features and VPN transfer.} Fig.~\ref{fig:rob}(a) removes one feature group at a time. Forward and backward inter-arrival times (0.030) and packet and byte rates (0.025) are the only groups whose removal lowers macro-F1, and removing any other group raises it by at most 0.012. Fig.~\ref{fig:rob}(b) trains on one tunnel type and tests on the other: a model trained on non-VPN flows reaches 0.458 macro-F1 on VPN flows, against 0.806 when VPN flows are included in training.
+
 \section{Discussion}
 
-The gate is effective because the policy is a short lookup from application to permitted actions, which code evaluates exactly and in microseconds, while the agent subordinates the written policy to the operator's instruction in every conflict scenario. The weakness is structural rather than computational: by (\ref{eq:violation}), a correct gate cannot produce a violation unless the label it reads moves a flow to a more permissive class. For operators this changes what classifier quality should mean. Overall accuracy matters less than the recall of restricted classes against permissive ones, and the 13.6\% rate at which file transfer is read as chat contributes more risk than any confusion among permissive classes. The VPN transfer result adds a deployment condition: a classifier in front of a policy gate must be trained on tunnelled traffic, because tunnelling reshapes the timing statistics the classifier relies on.
+The gate is effective because the policy is a short lookup from application to permitted actions, which code evaluates exactly and in microseconds, while the agent subordinates the written policy to the operator's instruction in every conflict scenario. Its weakness lies in its input. By (\ref{eq:violation}), a correct gate cannot produce a violation unless the label it reads moves a flow to a more permissive class. For an operator, the useful measure of a classifier is therefore the recall of restricted classes against permissive ones, not overall accuracy. A confusion among permissive classes leaves the permitted actions unchanged and cannot cause a violation, whereas the 13.6\% of file-transfer flows read as chat can. The VPN transfer result adds a deployment condition. A classifier in front of a policy gate needs tunnelled traffic in its training data, since a model trained without VPN flows reached only 0.458 macro-F1 on them.
 
-Probability-aware gating shows that the classifier's confidence carries usable signal, since all six violating flows are low-confidence predictions, but exploiting it costs legitimate work. At the 10\% budget, five violations disappear and four permitted tasks are lost, and one confident error remains out of reach of any threshold.
+The classifier's confidence does carry a usable signal, since all six violating flows have a top probability below 0.71, but acting on it costs legitimate work. At the 10\% budget, five violations disappear and four permitted tasks are lost, and one confident error remains out of reach of any threshold.
 
-\textit{Threats to validity.} The study uses one 3B-parameter model, one dataset recorded in 2016 without capture identifiers, a simulated data plane, 100 scenarios written by the authors and three static rules. Counts in Table~\ref{tab:viol} are small, so they describe the mechanism rather than estimate a population rate. The research objective, measuring how classification errors propagate through deterministic enforcement, is met within these limits.
+\textit{Threats to validity.} The study uses one 3B-parameter model, one dataset recorded in 2016 without capture identifiers, a simulated data plane, 100 scenarios written by the authors and three static rules. The six cases in Table~\ref{tab:viol} illustrate the mechanism but are too few to estimate how often it occurs in practice. Within these limits, the study meets its objective of measuring how classification errors pass through deterministic enforcement.
 
-\section{Conclusion}
+\section{Conclusion and Future Work}
 
-A deterministic gate placed between an LLM agent and an encrypted network reduced executed policy violations from 30 to 6 on identical proposals while preserving 97.9\% of completed tasks, and the Random Forest that labels flows exceeded the dataset's original classifiers under their own protocol. Every violation that passed the gate came from a restricted flow labelled as a more permissive class, and probability-aware gating traded four legitimate tasks for five of those six. Future work will measure the same pipeline on recent traffic with capture-separated splits, add stateful rules such as bandwidth budgets, and train classifiers with costs that reflect policy levels rather than uniform accuracy.
+A deterministic gate placed between an LLM agent and an encrypted network reduced executed policy violations from 30 to 6 on identical proposals while preserving 97.9\% of completed tasks, and the Random Forest that labels flows exceeded the dataset's original classifiers under their own protocol. Every violation that passed the gate came from a restricted flow labelled as a more permissive class, and probability-aware gating traded four legitimate tasks for five of those six. Future work will measure the same pipeline on recent traffic with capture-separated splits, add stateful rules such as bandwidth budgets, and train classifiers whose error costs follow the policy levels.
 
 \section*{Declarations}
 
@@ -337,6 +337,7 @@ A deterministic gate placed between an LLM agent and an encrypted network reduce
 
 \textit{AI-tool usage.} An AI assistant (Claude, Anthropic) was used to help implement the experiment code and to draft and revise the text of this paper. The authors designed the study, verified every result against the stored outputs and reviewed the final text.
 
+\IEEEtriggeratref{13}
 \bibliographystyle{IEEEtran}
 \bibliography{../refs}
 

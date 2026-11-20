@@ -217,3 +217,12 @@ Measured from *All Dice, No Slice* and *Take the Hint* (`paper_lint.py` prints t
 5. View every page at 100% and 200%; check figures (§7) and layout (§6).
 6. All authors read the whole paper once, aloud (§8.11).
 7. Re-run step 2 after the last edit; save PDF and LaTeX source together.
+
+## 12. AI-writing signs
+
+Run `python Papers/ai_signs_scan.py <paper.tex>` and review every hit against `Papers/AI_Writing_Signs/07_paper_audit_checklist.md`. Rewrite a hit only when it is a real pattern, and re-check every number afterwards.
+
+| # | Check | CN | AG |
+|---|---|---|---|
+| 12.1 | Marker vocabulary, negative parallelisms, trailing -ing clauses, set-up colons reviewed | ☑ | ☐ |
+| 12.2 | Page size and heading order match the reference papers and the Phase 4 brief (A4, IEEE) | ☑ | ☐ |

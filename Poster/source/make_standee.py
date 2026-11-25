@@ -28,9 +28,9 @@ STANDEE = r"""
   @page { size: 762mm 1524mm; margin: 0; }
   html, body { width: 762mm; height: 1524mm; overflow: hidden; }
   .page { zoom: 2.565657; width: 297mm; height: 594mm; position: relative; }
-  .page > * + * { margin-top: 4.4mm; }
+  .page > * + * { margin-top: 6.2mm; }
   .wrap { padding: 0 11mm; }
-  .wrap > * + * { margin-top: 4.4mm; }
+  .wrap > * + * { margin-top: 6.2mm; }
 
   .band { background: var(--deep); color: #fff; padding: 9mm 11mm 8mm; display: grid; grid-template-columns: 1.35fr 1fr; gap: 7mm; align-items: center; }
   .band .kicker { color: var(--orange-soft); font-size: 8.4pt; }
@@ -49,8 +49,11 @@ STANDEE = r"""
   /* larger type than the A3 poster: the standee is read standing, from further away */
   .kicker.k { font-size: 8.2pt; }
   h3.h { font-size: 14pt; }
-  .txt, ul.clean li { font-size: 10.6pt; line-height: 1.4; }
-  .level { font-size: 10.2pt; }
+  .txt, ul.clean li { font-size: 11.2pt; line-height: 1.45; }
+  .card.pad { padding: 4.2mm 4.8mm; }
+  .methodcard { padding: 4.2mm 5mm 4mm; }
+  .hero { padding: 5.4mm 6.2mm 5mm; }
+  .level { font-size: 10.8pt; margin-bottom: 1.6mm; }
   .methodcard .figsvg { width: 100%; }
   .methodcard .caption { font-size: 9pt; }
   .leak { font-size: 10pt; }
@@ -63,7 +66,7 @@ STANDEE = r"""
   .bars .valc { font-size: 13.5pt; }
   .hero .caption { font-size: 8.8pt; }
   .stat .big { font-size: 21pt; } .stat .lbl { font-size: 9.2pt; }
-  .evidence { grid-template-columns: 1fr; gap: 4.4mm; }
+  .evidence { grid-template-columns: 1fr; gap: 6.2mm; }
   .evidence .card { display: grid; grid-template-columns: 0.78fr 1.5fr; column-gap: 6mm; align-content: start; padding: 4mm 4.6mm; }
   .evidence .card > * { grid-column: 1; }
   .evidence .card > .figwrap { grid-column: 2; grid-row: 1 / span 4; }
@@ -72,6 +75,7 @@ STANDEE = r"""
   .evidence .caption { font-size: 8.8pt; }
   .bottom { grid-template-columns: 1fr 38mm; }
   .bottom h4 { font-size: 13.5pt; }
+  .bottom .card.pad { padding: 4.6mm 5mm; }
   .qr .qrsvg { width: 28mm; } .qr span { font-size: 8.4pt; }
 
   /* footer stays above the bottom 40 mm (real size) that the stand's base covers */

@@ -48,7 +48,7 @@ def save(fig, name):
 # ---- Fig. 3: weighted precision under the base-paper protocol, by flow timeout
 W = ["15s", "30s", "60s", "120s"]
 bp = x["base_protocol"]
-fig, ax = plt.subplots(figsize=(4.6, 1.9))
+fig, ax = plt.subplots(figsize=(5.0, 1.6))
 for name, col, mk, lab in (("Random Forest (ours)", NAVY, "o", "Random Forest"),
                            ("C4.5-style tree", MID, "s", "C4.5-style tree (rebuilt)"),
                            ("1-NN (normalised)", LIGHT, "^", "1-NN (rebuilt)")):
@@ -59,9 +59,9 @@ for name, col, mk, lab in (("Random Forest (ours)", NAVY, "o", "Random Forest"),
             ax.text(i, v + 0.008, f"{v:.3f}", ha="center", va="bottom", fontsize=8, color=NAVY, fontweight="bold")
 rep = x["base_paper_reported"]["best_average_precision"]
 ax.axhline(rep["C4.5"], color=ORANGE, lw=1.2, ls=(0, (5, 3)))
-ax.text(3.12, rep["C4.5"] + 0.004, f"C4.5 reported {rep['C4.5']:.3f}", color=ORANGE, fontsize=8, ha="right", va="bottom")
+ax.text(3.27, rep["C4.5"], f"C4.5\nreported\n{rep['C4.5']:.3f}", color=ORANGE, fontsize=7.6, ha="left", va="center", linespacing=1.05)
 ax.axhline(rep["KNN"], color=ORANGE, lw=1.2, ls=(0, (1.5, 2)))
-ax.text(-0.1, rep["KNN"] - 0.005, f"KNN reported {rep['KNN']:.3f}", color=ORANGE, fontsize=8, ha="left", va="top")
+ax.text(3.27, rep["KNN"], f"KNN\nreported\n{rep['KNN']:.3f}", color=ORANGE, fontsize=7.6, ha="left", va="center", linespacing=1.05)
 ax.set_xticks(range(4), ["15 s", "30 s", "60 s", "120 s"])
 ax.set_xlabel("Flow timeout"); ax.set_ylabel("Weighted precision")
 ax.set_ylim(0.68, 0.89); ax.set_xlim(-0.2, 3.2)
@@ -92,7 +92,7 @@ save(fig, "fig4_confusion")
 
 # ---- Fig. 5: policy-mass rule trade-off as the threshold rho varies
 r = u["rules"]["mass"]; ts = sorted(float(t) for t in r["sweep"])
-fig, ax = plt.subplots(figsize=(4.6, 1.9))
+fig, ax = plt.subplots(figsize=(5.0, 1.6))
 ax.plot(ts, [r["sweep"][str(t)]["violations"] for t in ts], "o-", ms=3.6, lw=1.8, color=NAVY, label="Violations (of 100)")
 ax.plot(ts, [50 - r["sweep"][str(t)]["permitted_completed"] for t in ts], "s-", ms=3.6, lw=1.8, color=MID,
         label="Permitted tasks not completed (of 50)")

@@ -75,5 +75,5 @@
   <!-- retry: dashed path, solid head -->
   <path d="M630,294 L630,312 L345,312 L345,306" fill="none" stroke="#D9822B" stroke-width="2.4" stroke-dasharray="7 5"/>
   <line x1="345" y1="308" x2="345" y2="296" stroke="#D9822B" stroke-width="2.4" marker-end="url(#pl-head-o)"/>
-  <text x="487" y="331" font-size="15" font-style="italic" fill="#B8661A" text-anchor="middle">rejection reason (one retry)</text>
+  <text x="487" y="331" font-size="16.5" font-style="italic" fill="#B8661A" text-anchor="middle">rejection reason (one retry)</text>
 </svg>

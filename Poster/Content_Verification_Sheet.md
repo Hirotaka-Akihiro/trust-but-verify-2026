@@ -41,7 +41,9 @@ Every number below was checked against the paper text and against the stored res
 | 14 | Fig. 2 whiskers (95% CI) | B0 24.7–35.2; M 2.0–10.6; M+R 2.7–11.8 | paper Fig. 3 | `metrics.json` (`bootstrap_95ci`) | ✓ |
 | 15 | CI of the reduction | 17.7–30.4 points | Abstract; V-B | `metrics.json` | ✓ |
 | 16 | Headline: all 6 were restricted flows labelled permissive | 6 of 6 | V-C; Table III | `scenario_outcomes.csv` | ✓ |
-| 17 | Tasks kept | 97.9% (47 of 48) | Abstract; V-B | `metrics.json` | ✓ |
+| 17 | Tasks kept | 97.9%: 47 of 50 permitted tasks complete with the gate, against 48 without it | Abstract; V-B | `metrics.json` | ✓ |
+| 17a | Breakdown of B0's 30 violations (Fig. 2 caption) | 25 forbidden requests + 3 injected notes + 2 unit errors | V-B | `scenario_outcomes.csv` | ✓ |
+| 17b | Why M+R has 7 (Fig. 2 caption) | the retry added one violation on a mislabelled flow | VII, Retry | `retries.jsonl` | ✓ |
 | 18 | Latency | 3.6 µs per gate decision vs 2.96 s per agent call | V-B | `metrics.json` | ✓ |
 | 19 | Forbidden requests obeyed (prompt only) | 25 / 25 | V-B | `scenario_outcomes.csv` | ✓ |
 | 20 | Violations with true labels | 0 | V-C; VII Label source | `metrics.json` | ✓ |

@@ -5,31 +5,10 @@ SRC = str(Path(__file__).resolve().parent)
 poster = open(SRC + r"\poster.html", encoding="utf-8").read()
 body = poster[poster.index('<div class="page">'):poster.rindex("</body>")]
 
-# replace the poster header (top bar + title row) with the standee's dark band + full-width question card
-start = body.index('  <div class="top">')
-end = body.index('  <div class="three">')
-header = '''  <div class="band">
-    <div class="kicker">FAST-NUCES Islamabad · Department of Data Science</div>
-    <h1>Trust, but Verify <span class="accent">the Label</span></h1>
-    <div class="sub">Encrypted-traffic misclassification as the residual risk of deterministic policy gating</div>
-    <div class="authors"><b>Muhammad Abdullah Aamir</b> <span>23i-2538</span> &nbsp;·&nbsp; <b>Haider Farooq Toor</b> <span>23i-2542</span> &nbsp;·&nbsp; <b>Muhammad Ibrahim Kiani</b> <span>23i-2536</span></div>
-  </div>
+# keep the poster's dark band; wrap everything after it so the standee gets side margins
+band_end = body.index('  <div class="three">')
+body = body[:band_end] + '  <div class="wrap">\n' + body[band_end:]
 
-  <div class="wrap">
-  <div class="card question">
-    <div>
-      <div class="kicker">Research question</div>
-      <p>An AI agent's actions pass a correct policy check. Which violations still get through, and why?</p>
-    </div>
-    <div class="qstats">
-      <div><div class="num">18,758</div><span>encrypted flows</span></div>
-      <div><div class="num">100</div><span>agent scenarios</span></div>
-      <div><div class="num">3</div><span>policy rules</span></div>
-    </div>
-  </div>
-
-'''
-body = body[:start] + header + body[end:]
 # close .wrap before the footer
 foot = body.index('  <div class="foot">')
 body = body[:foot] + "  </div>\n\n" + body[foot:]
@@ -41,7 +20,7 @@ style = re.sub(r"  html, body \{[^}]*\}\n", "", style)
 style = re.sub(r"  \.page \{[^}]*\}\n", "", style)
 style = re.sub(r"  \.page > \* \+ \* \{[^}]*\}\n", "", style)
 style = re.sub(r"  \.(top|titlerow|title)[^{]*\{[^}]*\}\n", "", style)
-style = re.sub(r"  \.question[^{]*\{[^}]*\}\n", "", style)
+style = re.sub(r"  \.(question|band|bq)[^{]*\{[^}]*\}\n", "", style)
 style = re.sub(r"  \.foot[^{]*\{[^}]*\}\n", "", style)
 
 STANDEE = r"""
@@ -53,20 +32,19 @@ STANDEE = r"""
   .wrap { padding: 0 11mm; }
   .wrap > * + * { margin-top: 4.4mm; }
 
-  .band { background: var(--deep); color: #fff; padding: 9mm 11mm 8mm; }
+  .band { background: var(--deep); color: #fff; padding: 9mm 11mm 8mm; display: grid; grid-template-columns: 1.35fr 1fr; gap: 7mm; align-items: center; }
   .band .kicker { color: var(--orange-soft); font-size: 8.4pt; }
-  .band h1 { font-family: var(--head); font-weight: 700; font-size: 42pt; line-height: 0.98; letter-spacing: -0.025em; margin-top: 3mm; white-space: nowrap; }
+  .band h1 { font-family: var(--head); font-weight: 700; font-size: 33pt; line-height: 0.98; letter-spacing: -0.025em; margin-top: 2.6mm; white-space: nowrap; }
   .band h1 .accent { color: var(--orange-soft); }
-  .band .sub { font-size: 15pt; font-weight: 500; color: #CFE0F2; line-height: 1.25; margin-top: 3mm; }
-  .band .authors { margin-top: 4mm; font-size: 11pt; color: #fff; }
-  .band .authors span { font-family: var(--mono); font-size: 8.6pt; color: #A9BCD3; }
-
-  .question { padding: 4mm 5mm; border: 0.5mm solid var(--navy); display: grid; grid-template-columns: 1.5fr 1fr; gap: 6mm; align-items: center; }
-  .question .kicker { font-size: 8pt; }
-  .question p { font-size: 13.5pt; font-weight: 600; line-height: 1.3; margin-top: 1.6mm; }
-  .question .qstats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2mm; border-left: 0.35mm solid var(--line); padding-left: 5mm; }
-  .question .num { font-size: 19pt; }
-  .question .qstats span { display: block; font-size: 8.4pt; color: var(--muted); }
+  .band .sub { font-size: 12pt; font-weight: 500; color: #DCE6F2; line-height: 1.25; margin-top: 2.6mm; }
+  .band .authors { margin-top: 3.4mm; font-size: 8.6pt; color: #fff; line-height: 1.5; }
+  .band .authors b { font-weight: 600; }
+  .band .authors span { font-family: var(--mono); font-size: 7.4pt; color: #C9D6E5; }
+  .bq { border: 0.4mm solid rgba(255,255,255,0.35); border-radius: 3mm; padding: 4mm 4.6mm; }
+  .bq p { font-size: 12pt; font-weight: 600; line-height: 1.3; margin-top: 1.6mm; color: #fff; }
+  .bq .qstats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2mm; border-top: 0.35mm solid rgba(255,255,255,0.25); padding-top: 2.2mm; margin-top: 2.4mm; }
+  .bq .qn { font-family: var(--head); font-weight: 700; font-size: 17pt; color: var(--orange-soft); }
+  .bq .qstats span { display: block; font-size: 8.2pt; color: #DCE6F2; }
 
   /* larger type than the A3 poster: the standee is read standing, from further away */
   .kicker.k { font-size: 8.2pt; }

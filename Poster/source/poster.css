@@ -63,7 +63,7 @@ html, body { background: var(--bg); color: var(--ink); font-family: var(--body);
 .hero h2 em { font-style: normal; color: var(--orange-soft); }
 .bars .row { display: grid; align-items: center; }
 .bars .name b { display: block; font-weight: 700; color: #fff; }
-.bars .name span { color: #A9BCD3; }
+.bars .name span { color: #DCE6F2; }
 .bars .track { position: relative; background: rgba(255,255,255,0.08); border-radius: 1.5mm; }
 .bars .fill { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 1.5mm; background: #5E83AB; }
 .bars .fill.key { background: var(--orange-soft); }
@@ -72,10 +72,10 @@ html, body { background: var(--bg); color: var(--ink); font-family: var(--body);
 .bars .ci { position: absolute; top: 50%; height: 0; border-top: 0.45mm solid #fff; }
 .bars .ci::before, .bars .ci::after { content: ""; position: absolute; top: -1.6mm; height: 3.2mm; border-left: 0.45mm solid #fff; }
 .bars .ci::before { left: 0; } .bars .ci::after { right: 0; }
-.hero .caption { color: #A9BCD3; }
+.hero .caption { color: #DCE6F2; }
 .stat { border-left: 0; }
 .stat .big { font-family: var(--head); font-weight: 700; color: var(--orange-soft); line-height: 1; }
-.stat .lbl { color: #D3DEEA; }
+.stat .lbl { color: #EEF3F9; }
 .stat-grid > div { background: rgba(255,255,255,0.06); border-radius: 2.2mm; }
 
 /* policy levels */

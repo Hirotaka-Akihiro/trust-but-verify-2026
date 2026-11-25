@@ -20,8 +20,8 @@ OUT.mkdir(exist_ok=True)
 
 NAVY, BLUE, MID, LIGHT, PALE = "#0B3C68", "#1F5C99", "#4A86C5", "#9CC1E6", "#D6E6F5"
 ORANGE, INK, MUTED, GRID = "#D9822B", "#1B2433", "#5B6676", "#E3E8EF"
-plt.rcParams.update({"font.family": "DejaVu Sans", "font.size": 9, "axes.labelsize": 9, "xtick.labelsize": 8.5,
-                     "ytick.labelsize": 8.5, "legend.fontsize": 8.5, "axes.edgecolor": "#8A94A3", "axes.linewidth": 0.7,
+plt.rcParams.update({"font.family": "DejaVu Sans", "font.size": 10, "axes.labelsize": 10, "xtick.labelsize": 9.5,
+                     "ytick.labelsize": 9.5, "legend.fontsize": 9.5, "axes.edgecolor": "#8A94A3", "axes.linewidth": 0.7,
                      "svg.fonttype": "none", "axes.labelcolor": INK, "xtick.color": MUTED, "ytick.color": MUTED})
 
 x = json.loads((RES / "cnet_extra.json").read_text())
@@ -65,6 +65,7 @@ ax.text(3.27, rep["KNN"], f"KNN\nreported\n{rep['KNN']:.3f}", color=ORANGE, font
 ax.set_xticks(range(4), ["15 s", "30 s", "60 s", "120 s"])
 ax.set_xlabel("Flow timeout"); ax.set_ylabel("Weighted precision")
 ax.set_ylim(0.68, 0.89); ax.set_xlim(-0.2, 3.2)
+ax.set_yticks([0.70, 0.75, 0.80, 0.85])
 ax.grid(axis="y", lw=0.5, color=GRID)
 ax.legend(frameon=False, loc="lower center", bbox_to_anchor=(0.5, 1.0), ncol=3, handlelength=1.6, columnspacing=1.0)
 clean(ax); save(fig, "fig3_baseprotocol")

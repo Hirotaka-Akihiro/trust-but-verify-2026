@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Trust, but Verify the Label - 2.5 x 5 ft standee</title>
+<link rel="stylesheet" href="poster.css">
+<style>
+  /* Real size 762 x 1524 mm (2.5 x 5 ft). Laid out on a 297 x 594 mm canvas and scaled by 762/297. */
+  @page { size: 762mm 1524mm; margin: 0; }
+  html, body { width: 762mm; height: 1524mm; overflow: hidden; }
+  .page { zoom: 2.565657; width: 297mm; height: 594mm; position: relative; }
+  .page > * + * { margin-top: 3.2mm; }
+  .wrap { padding: 0 11mm; }
+  .wrap > * + * { margin-top: 3.1mm; }
+
+  .band { background: var(--deep); color: #fff; padding: 8mm 11mm 6.6mm; }
+  .band .kicker { color: var(--orange-soft); font-size: 8pt; }
+  .band h1 { font-family: var(--head); font-weight: 700; font-size: 41pt; line-height: 0.98; letter-spacing: -0.025em; margin-top: 2.6mm; white-space: nowrap; }
+  .band h1 .accent { color: var(--orange-soft); }
+  .band .sub { font-size: 14pt; font-weight: 500; color: #CFE0F2; line-height: 1.25; margin-top: 3mm; }
+  .band .authors { margin-top: 4mm; font-size: 10.5pt; line-height: 1.5; color: #fff; }
+  .band .authors span { font-family: var(--mono); font-size: 8.4pt; color: #A9BCD3; }
+
+  .question { padding: 3.6mm 4.4mm; border: 0.5mm solid var(--navy); display: grid; grid-template-columns: 1.55fr 1fr; gap: 5mm; align-items: center; }
+  .question .kicker { font-size: 7.6pt; }
+  .question p { font-size: 12pt; font-weight: 600; line-height: 1.3; margin-top: 1.4mm; }
+  .question .qstats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2mm; border-left: 0.35mm solid var(--line); padding-left: 4mm; }
+  .question .num { font-size: 16pt; }
+  .question .qstats span { display: block; font-size: 7.4pt; color: var(--muted); line-height: 1.25; }
+
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 4mm; }
+  .card.pad { padding: 3.4mm 4mm; }
+  .kicker.k { font-size: 7.6pt; }
+  h3.h { font-family: var(--head); font-weight: 700; color: var(--navy); font-size: 13.5pt; margin: 0.6mm 0 1.4mm; }
+  .txt { font-size: 9.6pt; line-height: 1.38; }
+  ul.clean li { padding-left: 3.6mm; margin-bottom: 1mm; font-size: 9.6pt; line-height: 1.38; }
+  ul.clean li::before { top: 1.6mm; width: 1.7mm; height: 1.7mm; }
+
+  .fig .caption { font-size: 8.2pt; margin-top: 1.8mm; line-height: 1.35; }
+  .figk { font-size: 7.6pt; margin-bottom: 1.8mm; }
+  .setup { display: flex; flex-wrap: wrap; gap: 1.5mm; margin-top: 2.2mm; }
+  .setup .chip { font-size: 7.4pt; padding: 0.8mm 2.4mm; }
+  .side h4 { font-family: var(--head); font-weight: 700; color: var(--navy); font-size: 11.5pt; margin-bottom: 1.4mm; }
+  .level { grid-template-columns: 2.8mm 1fr; gap: 2mm; font-size: 8.8pt; line-height: 1.3; margin-bottom: 1.2mm; }
+  .level .dot { width: 2.8mm; height: 2.8mm; }
+  .side p { font-size: 8.8pt; line-height: 1.36; }
+  .formula { font-size: 8.8pt; padding: 1.3mm 2.4mm; margin: 1.2mm 0; }
+
+  .hero { padding: 4.6mm 5.4mm 4mm; }
+  .hero .headrow { display: flex; justify-content: space-between; align-items: center; }
+  .hero .kicker { font-size: 7.8pt; }
+  .hero .tag { font-size: 7.2pt; padding: 0.8mm 2mm; }
+  .hero h2 { font-size: 17.5pt; margin: 2mm 0 3.4mm; }
+  .bars .row { grid-template-columns: 37mm 9mm 1fr; gap: 2.2mm; margin-bottom: 1.6mm; }
+  .bars .name { white-space: nowrap; } .bars .name b { display: inline; margin-right: 1.6mm; font-size: 10pt; }
+  .bars .name span { font-size: 8pt; }
+  .bars .track { height: 6.8mm; }
+  .bars .valc { font-family: var(--head); font-weight: 700; font-size: 12.5pt; color: #fff; text-align: right; }
+  .bars .valc.key { color: var(--orange-soft); }
+  .hero .caption { font-size: 8.2pt; margin-top: 1.4mm; }
+  .stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2.6mm; margin-top: 3.4mm; }
+  .stat-grid > div { padding: 2.8mm 3.2mm; }
+  .stat .big { font-size: 19pt; }
+  .stat .lbl { font-size: 8.2pt; line-height: 1.3; margin-top: 1.2mm; }
+
+  .evidence { display: grid; grid-template-columns: 1.12fr 0.78fr 1.12fr; gap: 3.4mm; }
+  .evidence .card { padding: 3mm 3.2mm 2.6mm; display: flex; flex-direction: column; }
+  .ek { font-size: 7.2pt; margin-bottom: 0.6mm; }
+  .evidence h4 { font-family: var(--head); font-weight: 700; color: var(--navy); font-size: 10.6pt; line-height: 1.15; }
+  .evidence p { font-size: 8.4pt; line-height: 1.34; margin: 0.8mm 0 1.2mm; }
+  .evidence .figwrap { flex: 1; display: flex; align-items: center; }
+  .evidence .caption { font-size: 7.6pt; margin-top: 1.2mm; line-height: 1.3; }
+
+  .bottom { display: grid; grid-template-columns: 1.15fr 1.25fr 0.5fr; gap: 3.4mm; }
+  .bottom .card { padding: 3mm 3.6mm; }
+  .bottom h4 { font-family: var(--head); font-weight: 700; color: var(--navy); font-size: 11pt; margin-bottom: 1.4mm; }
+  .abl { display: grid; grid-template-columns: auto 1fr; column-gap: 2.6mm; row-gap: 1.2mm; font-size: 8.6pt; line-height: 1.3; align-items: baseline; }
+  .abl .num { font-size: 11pt; }
+  .concl p { font-size: 8.8pt; line-height: 1.38; }
+  .concl p + p { margin-top: 1.6mm; }
+  .qr { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+  .qr .qrsvg { width: 26mm; }
+  .qr span { font-size: 7.6pt; color: var(--muted); margin-top: 1.6mm; line-height: 1.25; }
+
+  /* footer stays above the bottom 40 mm (real size) that the stand's base covers */
+  .foot { position: absolute; left: 11mm; right: 11mm; bottom: 18mm; display: flex; justify-content: space-between;
+    font-size: 8pt; color: var(--muted); border-top: 0.35mm solid var(--line); padding-top: 1.8mm; }
+  .foot b { color: var(--ink); font-weight: 600; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="band">
+    <div class="kicker">FAST-NUCES Islamabad · Department of Data Science</div>
+    <h1>Trust, but Verify <span class="accent">the Label</span></h1>
+    <div class="sub">Encrypted-traffic misclassification as the residual risk of deterministic policy gating</div>
+    <div class="authors">
+      <b>Muhammad Abdullah Aamir</b> <span>23i-2538</span> &nbsp;·&nbsp; <b>Haider Farooq Toor</b> <span>23i-2542</span> &nbsp;·&nbsp; <b>Muhammad Ibrahim Kiani</b> <span>23i-2536</span>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="card question">
+      <div>
+        <div class="kicker">Research question</div>
+        <p>An AI agent's actions pass a correct policy check. Which violations still get through, and why?</p>
+      </div>
+      <div class="qstats">
+        <div><div class="num">18,758</div><span>encrypted flows, 23 timing features</span></div>
+        <div><div class="num">100</div><span>agent scenarios on 50 test flows</span></div>
+        <div><div class="num">3</div><span>policy rules enforced</span></div>
+      </div>
+    </div>
+
+    <div class="two">
+      <div class="card pad">
+        <div class="kicker k">01 · Problem</div>
+        <h3 class="h">Labels decide what is allowed</h3>
+        <p class="txt">Encryption hides payloads, so networks infer the application from flow timing. Language-model agents are now proposed to act on these labels. A check before execution reads the label, so it is only as correct as the prediction.</p>
+      </div>
+      <div class="card pad">
+        <div class="kicker k">02 · Gap</div>
+        <h3 class="h">Accuracy hides which errors matter</h3>
+        <p class="txt">Classification studies report overall accuracy, not which mistakes change an enforcement decision. Pre-execution guards such as ToolGuard and AgentSpec assume the facts they read are correct.</p>
+      </div>
+    </div>
+
+    <div class="card pad">
+      <div class="kicker k">03 · Contributions</div>
+      <h3 class="h">What this work adds</h3>
+      <ul class="clean">
+        <li>Rebuilt the dataset's original protocol: the Random Forest beats the rebuilt C4.5 by at least <b>4.7 points</b> at every timeout.</li>
+        <li>Paired test on identical agent proposals: violations fall from <b>30 to 6</b>.</li>
+        <li>Traced every remaining violation to a restricted flow predicted as a more permissive class.</li>
+      </ul>
+    </div>
+
+    <div class="card pad fig">
+      <div class="kicker figk">04 · Proposed method</div>
+      {{svg:fig1_pipeline}}
+      <div class="caption"><b>Fig. 1.</b> Pipeline. The Random Forest labels each flow from timing statistics; its prediction ŷ reaches the agent and the gate. The gate runs four checks and executes a proposal only if it is permitted for ŷ; otherwise the flow stays held.</div>
+      <div class="setup">
+        <span class="chip">ISCXVPN2016 Scenario B · 15 s</span>
+        <span class="chip">17,984 flows → 6,000 / 2,000 / 2,000</span>
+        <span class="chip">Random Forest · 100 trees · depth 16</span>
+        <span class="chip">Llama-3.2-3B (4-bit) · laptop CPU</span>
+        <span class="chip">100 scenarios · 1,000 bootstrap resamples</span>
+      </div>
+    </div>
+
+    <div class="two side">
+      <div class="card pad">
+        <h4>The policy (three levels)</h4>
+        <div class="level lv2"><span class="dot"></span><div><b>P2P</b>: block only</div></div>
+        <div class="level lv1"><span class="dot"></span><div><b>Streaming, file transfer</b>: block or limit ≤ 1,024 kbps</div></div>
+        <div class="level lv0"><span class="dot"></span><div><b>Browsing, chat, email, VoIP</b>: allow, block or limit ≤ 10,000 kbps</div></div>
+      </div>
+      <div class="card pad">
+        <h4>Why errors still leak</h4>
+        <p>A correct gate executes only actions in Π(ŷ). A violation therefore needs</p>
+        <div class="formula">a ∈ Π(ŷ) \ Π(y)</div>
+        <p>which happens only when a <b>restricted flow is predicted as a more permissive class</b>.</p>
+      </div>
+    </div>
+
+    <div class="hero">
+      <div class="headrow">
+        <div class="kicker">05 · Key result · same 100 proposals under every condition</div>
+        <div class="tag">95% CI of the reduction: 17.7–30.4 points</div>
+      </div>
+      <h2>The gate cut violations from <em>30 to 6</em>. All 6 were restricted flows labelled as permissive.</h2>
+      <div class="bars">
+        <div class="row"><div class="name"><b>B0</b><span>prompt only</span></div><div class="valc">30</div>
+          <div class="track"><div class="fill" style="width:75%"></div><div class="ci" style="left:61.75%;width:26.25%"></div></div></div>
+        <div class="row"><div class="name"><b>B1</b><span>structural</span></div><div class="valc">27</div>
+          <div class="track"><div class="fill" style="width:67.5%"></div></div></div>
+        <div class="row"><div class="name"><b>M</b><span>policy gate</span></div><div class="valc key">6</div>
+          <div class="track"><div class="fill key" style="width:15%"></div><div class="ci" style="left:5%;width:21.5%"></div></div></div>
+        <div class="row"><div class="name"><b>M+R</b><span>gate + retry</span></div><div class="valc">7</div>
+          <div class="track"><div class="fill" style="width:17.5%"></div><div class="ci" style="left:6.75%;width:22.75%"></div></div></div>
+        <div class="row"><div class="name"><b>M-oracle</b><span>true labels</span></div><div class="valc">0</div>
+          <div class="track"><div class="fill zero" style="width:0.8%"></div></div></div>
+      </div>
+      <div class="caption"><b style="color:#fff">Fig. 2.</b> Executed violations out of 100 scenarios, with 95% bootstrap intervals (whiskers).</div>
+      <div class="stat-grid">
+        <div class="stat"><div class="big">97.9%</div><div class="lbl">of completed tasks kept (47 of 48)</div></div>
+        <div class="stat"><div class="big">3.6 µs</div><div class="lbl">per gate decision, against 2.96 s per agent call</div></div>
+        <div class="stat"><div class="big">25 / 25</div><div class="lbl">forbidden requests executed with the policy only in the prompt</div></div>
+        <div class="stat"><div class="big">0</div><div class="lbl">violations when the gate reads true labels</div></div>
+      </div>
+    </div>
+
+    <div class="evidence">
+      <div class="card">
+        <div class="kicker ek">06 · Classification</div>
+        <h4>A stronger classifier on the original protocol</h4>
+        <p>Under the original 14-class, 10-fold protocol the Random Forest reaches <b>0.855</b> weighted precision: +4.7 points over the rebuilt C4.5, +7.2 over the reported 0.783.</p>
+        <div class="figwrap">{{svg:fig3_baseprotocol}}</div>
+        <div class="caption"><b>Fig. 3.</b> Weighted precision by flow timeout; orange lines are values reported by Draper-Gil et al.</div>
+      </div>
+      <div class="card">
+        <div class="kicker ek">07 · Error direction</div>
+        <h4>Where errors cross policy levels</h4>
+        <p>Test macro-F1 0.837, accuracy 87.7%. <span class="hl">13.6%</span> of file-transfer flows are read as chat.</p>
+        <div class="figwrap">{{svg:fig4_confusion}}</div>
+        <div class="caption"><b>Fig. 4.</b> Row-normalised confusion matrix, 2,000 test flows; boxed: largest restricted-to-permissive error.</div>
+      </div>
+      <div class="card">
+        <div class="kicker ek">08 · Probability-aware gate</div>
+        <h4>Reading probabilities has a price</h4>
+        <p>At a 10% over-restriction budget (ρ = 0.25) violations fall to <b>1</b>, but only 43 of 50 tasks complete (89.6% retention). At 5% (ρ = 0.45) none are removed.</p>
+        <div class="figwrap">{{svg:fig5_tradeoff}}</div>
+        <div class="caption"><b>Fig. 5.</b> Policy-mass rule: violations and unfinished permitted tasks as ρ varies.</div>
+      </div>
+    </div>
+
+    <div class="bottom">
+      <div class="card">
+        <div class="kicker ek">09 · Ablation</div>
+        <h4>What each part contributes</h4>
+        <div class="abl">
+          <span class="num">3 / 30</span><span>violations removed by structural checks alone</span>
+          <span class="num">−0.095</span><span>macro-F1 with a decision tree instead</span>
+          <span class="num">0.811–0.861</span><span>Random Forest macro-F1, 15–120 s timeouts</span>
+          <span class="num">0.458</span><span>macro-F1 on VPN flows if trained without them</span>
+        </div>
+      </div>
+      <div class="card concl">
+        <div class="kicker ek">10 · Conclusion</div>
+        <h4>Only as correct as the label</h4>
+        <p>A deterministic gate stops most policy violations at microsecond cost, but it is only as correct as the label it reads. For an operator, the classifier metric that matters is the recall of restricted classes against permissive ones.</p>
+        <p><b>Next:</b> recent traffic with capture-separated splits, stateful rules such as bandwidth budgets, and classifiers whose error costs follow the policy levels.</p>
+      </div>
+      <div class="card qr">
+        {{svg:qr}}
+        <span>Code, data split and results</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="foot">
+    <div><b>Contact</b> &nbsp; i232538@isb.nu.edu.pk · i232542@isb.nu.edu.pk · i232536@isb.nu.edu.pk</div>
+    <div>Department of Data Science, FAST-NUCES Islamabad</div>
+  </div>
+</div>
+</body>
+</html>

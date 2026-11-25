@@ -1,0 +1,90 @@
+/* Shared visual identity for the A3 poster and the 2.5 x 5 ft standee. */
+@font-face { font-family: "Inter"; font-weight: 400; src: url("fonts/inter-latin-400-normal.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2212, U+FEFF; }
+@font-face { font-family: "Inter"; font-weight: 500; src: url("fonts/inter-latin-500-normal.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2212, U+FEFF; }
+@font-face { font-family: "Inter"; font-weight: 600; src: url("fonts/inter-latin-600-normal.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2212, U+FEFF; }
+@font-face { font-family: "Inter"; font-weight: 700; src: url("fonts/inter-latin-700-normal.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+20AC, U+2122, U+2212, U+FEFF; }
+@font-face { font-family: "Inter"; font-weight: 400 600; src: url("fonts/inter-latin-ext-400-normal.woff2") format("woff2");
+  unicode-range: U+0100-02AF, U+0304, U+0308, U+0329, U+1E00-1EFF; }
+@font-face { font-family: "Inter"; font-weight: 700; src: url("fonts/inter-latin-ext-700-normal.woff2") format("woff2");
+  unicode-range: U+0100-02AF, U+0304, U+0308, U+0329, U+1E00-1EFF; }
+@font-face { font-family: "Inter"; font-weight: 400 600; src: url("fonts/inter-greek-400-normal.woff2") format("woff2");
+  unicode-range: U+0370-03FF; }
+@font-face { font-family: "Inter"; font-weight: 700; src: url("fonts/inter-greek-700-normal.woff2") format("woff2");
+  unicode-range: U+0370-03FF; }
+@font-face { font-family: "Space Grotesk"; font-weight: 600; src: url("fonts/space-grotesk-latin-600-normal.woff2") format("woff2"); }
+@font-face { font-family: "Space Grotesk"; font-weight: 700; src: url("fonts/space-grotesk-latin-700-normal.woff2") format("woff2"); }
+@font-face { font-family: "JetBrains Mono"; font-weight: 500; src: url("fonts/jetbrains-mono-latin-500-normal.woff2") format("woff2"); }
+@font-face { font-family: "JetBrains Mono"; font-weight: 600; src: url("fonts/jetbrains-mono-latin-600-normal.woff2") format("woff2"); }
+
+:root {
+  --bg: #F3F5F8;          /* light, glare-free page */
+  --card: #FFFFFF;
+  --line: #DCE3EC;
+  --ink: #1B2433;         /* body text */
+  --muted: #5B6676;
+  --navy: #0B3C68;        /* primary: matches the paper's figures */
+  --deep: #0A2F52;        /* hero block */
+  --blue: #1F5C99;
+  --mid: #4A86C5;
+  --light: #9CC1E6;
+  --tint: #EAF1F9;
+  --orange: #D9822B;      /* single accent: the classifier and key numbers */
+  --orange-ink: #B8661A;
+  --orange-soft: #F6A75A; /* accent on the dark hero block */
+  --head: "Space Grotesk", "Inter", sans-serif;
+  --body: "Inter", "Segoe UI", sans-serif;
+  --mono: "JetBrains Mono", Consolas, monospace;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { background: var(--bg); color: var(--ink); font-family: var(--body);
+  -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+.figsvg, .qrsvg { width: 100%; height: auto; display: block; }
+
+.kicker { font-family: var(--mono); font-weight: 600; text-transform: uppercase; letter-spacing: 0.12em; color: var(--blue); }
+.card { background: var(--card); border: 0.35mm solid var(--line); border-radius: 3mm; }
+.sec-title { font-family: var(--head); font-weight: 700; color: var(--navy); letter-spacing: -0.01em; }
+.sec-title .arrow { color: var(--orange); }
+.caption { color: var(--muted); }
+.caption b { color: var(--ink); font-weight: 600; }
+.hl { color: var(--orange-ink); font-weight: 700; }
+.num { font-family: var(--head); font-weight: 700; color: var(--navy); letter-spacing: -0.01em; }
+.chip { font-family: var(--mono); font-weight: 500; border: 0.3mm solid var(--line); border-radius: 99mm; background: var(--card);
+  color: var(--ink); white-space: nowrap; }
+
+/* hero (dark) block */
+.hero { background: var(--deep); color: #fff; border-radius: 3.5mm; }
+.hero .kicker { color: var(--orange-soft); }
+.hero .tag { font-family: var(--mono); font-weight: 500; color: #9FE0C7; border: 0.3mm solid #2E7D68; border-radius: 1.2mm; }
+.hero h2 { font-family: var(--head); font-weight: 700; letter-spacing: -0.015em; line-height: 1.12; }
+.hero h2 em { font-style: normal; color: var(--orange-soft); }
+.bars .row { display: grid; align-items: center; }
+.bars .name b { display: block; font-weight: 700; color: #fff; }
+.bars .name span { color: #A9BCD3; }
+.bars .track { position: relative; background: rgba(255,255,255,0.08); border-radius: 1.5mm; }
+.bars .fill { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 1.5mm; background: #5E83AB; }
+.bars .fill.key { background: var(--orange-soft); }
+.bars .fill.zero { background: #9FE0C7; }
+.bars .val { position: absolute; top: 50%; transform: translateY(-50%); font-family: var(--head); font-weight: 700; color: #fff; }
+.bars .ci { position: absolute; top: 50%; height: 0; border-top: 0.45mm solid #fff; }
+.bars .ci::before, .bars .ci::after { content: ""; position: absolute; top: -1.6mm; height: 3.2mm; border-left: 0.45mm solid #fff; }
+.bars .ci::before { left: 0; } .bars .ci::after { right: 0; }
+.hero .caption { color: #A9BCD3; }
+.stat { border-left: 0; }
+.stat .big { font-family: var(--head); font-weight: 700; color: var(--orange-soft); line-height: 1; }
+.stat .lbl { color: #D3DEEA; }
+.stat-grid > div { background: rgba(255,255,255,0.06); border-radius: 2.2mm; }
+
+/* policy levels */
+.level { display: grid; align-items: center; border-radius: 2mm; }
+.level .dot { border-radius: 99mm; }
+.lv2 .dot { background: var(--navy); } .lv1 .dot { background: var(--mid); } .lv0 .dot { background: var(--light); }
+.level b { color: var(--navy); }
+.formula { background: var(--tint); border-radius: 2mm; font-family: var(--mono); color: var(--navy); }
+
+ul.clean { list-style: none; }
+ul.clean li { position: relative; }
+ul.clean li::before { content: ""; position: absolute; left: 0; border-radius: 99mm; background: var(--orange); }

@@ -7,7 +7,8 @@
 | Hook, problem, gap, objectives | Aamir | 1–3 | ~1:20 |
 | Method, policy, setup | Haider | 4–6 | ~1:25 |
 | Live demo | Aamir | 7 | ~1:15 |
-| Results, findings, conclusion | Ibrahim | 8–11 | ~1:55 |
+| Results and findings | Ibrahim | 8–10 | ~1:00 |
+| Conclusion | Aamir | 11 | ~0:25 |
 
 ## Script
 
@@ -36,7 +37,7 @@
 
 **Slide 10 · Ibrahim (~30 s).** All 6 remaining violations were restricted flows the classifier labelled as permissive. With true labels there are none. Reading class probabilities can remove 5 of them, but only at a 10% over-restriction budget, where just 43 of 50 normal tasks complete.
 
-**Slide 11 · Ibrahim (~25 s).** So that is the answer to our question. The gate stops most violations at almost no cost, but it cannot see a wrong label. For an operator, what matters is how often restricted traffic is mistaken for permissive traffic. Next we want newer traffic, stateful rules and classifiers trained with these costs in mind. Thank you.
+**Slide 11 · Aamir (~25 s).** So that is the answer to our question. The gate stops most violations at almost no cost, but it cannot see a wrong label. For an operator, what matters is how often restricted traffic is mistaken for permissive traffic. Next we want newer traffic, stateful rules and classifiers trained with these costs in mind. Thank you.
 
 ## Files to collect in `presentation\cn\recordings`
 
@@ -45,7 +46,8 @@
 | Aamir | `s01`, `s02`, `s03` | Sound Recorder, one file per slide |
 | Aamir | `demo.mp4` | screen + your voice, recorded together (below) |
 | Haider | `s04`, `s05`, `s06` | phone voice memo or Sound Recorder |
-| Ibrahim | `s08`, `s09`, `s10`, `s11` | phone voice memo or Sound Recorder |
+| Ibrahim | `s08`, `s09`, `s10` | phone voice memo or Sound Recorder |
+| Aamir | `s11` | Sound Recorder |
 
 Any audio format is fine (m4a, mp3, wav). Quiet room, phone about 20 cm away, a little slower than normal speech.
 
@@ -58,7 +60,7 @@ Any audio format is fine (m4a, mp3, wav). Quiet room, phone about 20 cm away, a 
 5. Run `python src\demo.py`, press Enter and say each line as its step appears. Step 5 takes about 15 seconds to show up.
 6. Stop after *Done.* and save it as `demo.mp4` in `presentation\cn\recordings`.
 
-When all files are in the folder, the slides, audio and demo get assembled into one MP4.
+When all files are in the folder, `python make_video.py <slides_dir> <work_dir>` assembles the slides, audio and demo into `23i-2538_23i-2542_23i-2536_Phase-6_Video.mp4` (the demo itself is synced by `make_demo.py`).
 
 ## Upload
 
